@@ -1,0 +1,1618 @@
+// ==UserScript==
+// @name         LSCG Chinese Localization Patch
+// @name:zh      LSCG 汉化补丁
+// @namespace    https://www.bondageprojects.com/
+// @version      1.0.5
+// @description  Little Sera's Club Games (LSCG) 简体中文汉化补丁。
+// @author       Wuhu
+// @match        https://bondageprojects.elementfx.com/*
+// @match        https://www.bondageprojects.elementfx.com/*
+// @match        https://bondage-europe.com/*
+// @match        https://www.bondage-europe.com/*
+// @match        https://bondage-asia.com/*
+// @match        https://www.bondage-asia.com/*
+// @run-at       document-end
+// @grant        none
+// @updateURL    https://raw.githubusercontent.com/thisaueser/LSCG-Chinese-Localization-Patch/main/main.user.js
+// @downloadURL  https://raw.githubusercontent.com/thisaueser/LSCG-Chinese-Localization-Patch/main/main.user.js
+// ==/UserScript==
+
+(function () {
+    "use strict";
+
+    // ============================================================
+    // 翻译字典
+    // 规则：
+    // 1. KEY 必须与源代码中渲染的字符串完全匹配
+    // 2. 严禁在 KEY 中出现 ${...} 模板表达式
+    // 3. 严禁空值
+    // ============================================================
+
+    const T = {
+        /* ===== 通用 ===== */
+        "General": "通用",
+        "Settings": "设置",
+        "Advanced": "高级",
+        "Basic": "基础",
+        "Enabled": "启用",
+        "Disabled": "已禁用",
+        "Enable": "启用",
+        "Disable": "禁用",
+        "On": "启用",
+        "Off": "关闭",
+        "Yes": "是",
+        "No": "否",
+        "Save": "保存",
+        "Cancel": "取消",
+        "Close": "合上",
+        "Back": "返回",
+        "Reset": "重置",
+        "Confirm": "确认",
+        "Delete": "删除",
+        "Remove": "移除",
+        "Add": "添加",
+        "Edit": "编辑",
+        "Configure": "配置",
+        "Name": "名称",
+        "Description": "说明",
+        "Details": "详情",
+        "State": "状态",
+        "Effect": "效果",
+        "Effects": "效果",
+        "Duration": "持续时间",
+        "Cooldown": "冷却",
+        "Color": "颜色",
+        "Voice": "语音",
+        "Random": "随机",
+        "Required": "必填",
+        "Optional": "可选",
+        "None": "无",
+        "Self": "自己",
+        "Owner": "主人",
+        "Friends": "好友",
+        "Lovers": "恋人",
+        "Whitelist": "白名单",
+        "Public": "公开",
+        "Remote": "远程",
+        "Local": "本地",
+        "Lock": "锁定",
+        "Locked": "已锁定",
+        "Unlocked": "未锁定",
+        "Activity": "动作",
+        "Activities": "动作",
+        "Zone": "区域",
+        "Zones": "区域",
+        "Trigger": "触发器",
+        "Triggers": "触发器",
+        "Trigger phrase": "触发短语",
+        "Instruction": "指令",
+        "Instructions": "指令",
+        "Reaction": "反应规则",
+        "Reactions": "反应",
+        "Condition": "状态",
+        "Conditions": "状态",
+        "Member ID": "成员ID",
+        "Member IDs": "成员ID",
+        "Allowed members": "允许的成员",
+        "Allowed players": "允许的玩家",
+        "Interactions": "互动",
+        "Items": "物品",
+        "Item": "物品",
+        "Outfit": "套装",
+        "Outfits": "服装",
+        "Wardrobe": "衣柜",
+        "Clothes": "衣物",
+        "Restraints": "束缚",
+        "Cosplay": "Cosplay",
+        "Body": "身体",
+        "Whole body": "全身",
+        "Upper pose": "上半身姿势",
+        "Lower pose": "下半身姿势",
+        "Full pose": "完整姿势",
+        "Display": "显示",
+        "Extension": "扩展",
+        "Extensions": "扩展",
+        "Password": "密码",
+        "Hint": "提示",
+        "Combination": "组合",
+        "Choose item": "选择物品",
+        "Item options": "物品选项",
+        "Filter Options": "筛选选项",
+        "Parse the outfit code": "解析套装代码",
+        "Parse ?": "解析？",
+        "Parse ✅": "解析 ✅",
+        "Remove from outfit": "从套装中移除",
+        "No lock": "无锁",
+        "Take the lock off": "取下锁具",
+        "Choose zone": "选择区域",
+        "Global": "全局",
+        "Unknown": "未知",
+        "UNKNOWN": "未知",
+        "Target": "目标",
+        "Exclusive": "专属",
+        "Nothing": "无",
+        "Injector": "注射器",
+        "Injectors": "注射器",
+        "Collar": "项圈",
+        "Hypnosis": "催眠",
+        "Cursed Item": "诅咒物品",
+        "Inexhaustible": "永不耗尽",
+        "Inexhaustable": "不会耗尽",
+        "Speed": "速度",
+        "Speech analysis": "语音分析",
+        "Speech Analysis": "语音分析",
+        "Speech Tuning": "言语调优",
+        "Maps": "地图",
+        "Load": "加载",
+        "Unload": "卸载",
+        "Run": "运行",
+        "Click": "点击",
+        "Exit": "退出",
+        "Section is Disabled": "该分区已禁用",
+        "Section is Unavailable": "此区域不可用",
+        "Loading...": "加载中...",
+
+        /* ===== 主菜单 ===== */
+        "Main Menu": "主菜单",
+        "MainMenu": "主菜单",
+        "UNDEFINED SETTING SCREEN": "未定义的设置页面",
+        "Setting is unavailable.": "设置不可用。",
+        "Settings disabled while restrained": "被束缚时无法打开设置",
+        "Settings disabled while incapacitated and immersive": "在昏迷且沉浸模式下无法打开设置",
+        "Setting is deactivated": "设置已停用",
+        "Emergency reset of LSCG": "LSCG 紧急重置",
+        "Export LSCG Settings": "导出 LSCG 设置",
+        "Import LSCG Settings": "导入 LSCG 设置",
+        "Export": "导出",
+        "Import": "导入",
+        "Latest Changes": "最新变更",
+        "Open Help": "打开帮助",
+        "Open LSCG Wiki on GitHub": "在 GitHub 打开 LSCG Wiki",
+        "Open LSCG Latest Release on Github.": "在 GitHub 打开 LSCG 最新版本",
+        "Importing settings will overwrite existing settings. \nAre you sure?": "导入设置将覆盖现有设置。\n你确定要继续吗？",
+        "Importing settings will overwrite existing settings. \\nAre you sure?": "导入设置将覆盖现有设置。",
+        "LSCG settings imported": "LSCG 设置已导入",
+        "Little Sera's Club Games ": "Open Triggered Hypnosis Wiki on GitHub",
+
+        /* ===== 子页面维基链接 ===== */
+        "Open Breathplay Wiki on GitHub": "在 GitHub 打开窒息玩法 Wiki",
+        "Open Hypnosis Wiki on GitHub": "在 GitHub 打开催眠 Wiki",
+        "Open Triggered Hypnosis Wiki on GitHub": "在 GitHub 上打开催眠触发维基",
+        "Open Magic Wiki on GitHub": "在 GitHub 打开魔法 Wiki",
+        "Open Activity Wiki on GitHub": "在 GitHub 打开动作 Wiki",
+        "Open Drug Enhancements Wiki on GitHub": "在 GitHub 打开药物强化 Wiki",
+        "Open Cursed Items Wiki on GitHub": "在 GitHub 打开诅咒物品 Wiki",
+        "Open Splatter Wiki on GitHub": "在 GitHub 打开飞溅效果 Wiki",
+        "Open Enhanced Lighting Wiki on GitHub": "在 GitHub 打开增强照明 Wiki",
+        "Open Speech Analysis Wiki on GitHub": "在 GitHub 打开语音分析 Wiki",
+        "Open Outfit Collection Wiki on GitHub": "在 GitHub 打开套装收藏夹 Wiki",
+        "Open Hypnotic Suggestion Wiki on GitHub": "在 GitHub 上打开催眠暗示维基",
+
+        /* ===== 子菜单标题 ===== */
+        "Breathplay": "窒息玩法",
+        "Triggered Hypnosis": "触发式催眠",
+        "Magic™": "魔法™",
+        "Drug Enhancements": "药物强化效果",
+        "Cursed Items": "诅咒物品",
+        "Reset all LSCG Data": "重置所有 LSCG 数据",
+        "Splatter": "体液喷射",
+        "Enhanced Lighting": "增强照明",
+        "Opacity Override": "透明度覆盖",
+        "Outfit Collection": "套装收藏夹",
+
+        /* ===== 通用 (Global) 具体项 ===== */
+        "LSCG scripts enabled": "启用 LSCG 脚本",
+        "Enable LSCG Features.": "启用 LSCG 功能。",
+        "Block settings while restrained": "被束缚时禁止打开设置",
+        "Prevents LSCG settings access while restrained.": "防止在被束缚时访问 LSCG 设置。",
+        "Immersive conditions": "沉浸式状态",
+        "Applies a more restrictive set of conditional states while incapacitated by LSCG.": "在因 LSCG 而失去行动能力时，使用更严格的状态限制。",
+        "Show check rolls": "显示检定骰点",
+        "If enabled, will display the attacker/defender roll values for activity checks.": "启用后，会显示动作检定中攻击者和防御者的骰点。",
+        "Allow LSCG leashing": "允许 LSCG 牵绳",
+        "Allow custom leashing from LSCG activities such as hand-holding, hypnosis, etc.": "允许使用 LSCG 动作提供的自定义牵绳，例如牵手、催眠等。",
+        "Enable clothed erection detection": "启用衣物下勃起检测",
+        "If checked, you will get a private message if you can feel an erection during certain activities.": "启用后，在某些动作中若能感觉到勃起，会收到私密提示。",
+        "Enable lipstick marks": "启用口红印",
+        "Apply kiss marks when lipstick-wearing people kiss you on the cheek/forehead/neck.": "佩戴口红的人亲吻你的脸颊、额头或脖子时留下吻痕。",
+        "Dry lipstick": "干口红",
+        "Never apply kissmarks when you are the kisser.": "当你主动亲吻别人时，不留下吻痕。",
+        "Enable boop reactions": "启用戳鼻反应",
+        "Auto-react when booped.": "被戳鼻子时自动回应。",
+        "Share public craftings": "分享公开制作物",
+        "If enabled, other LSCG users in the room will be able to use your crafted items on other people.": "启用后，房间内其他 LSCG 用户可以将你制作的物品用于其他人。",
+        "Enable tamperproof items": "启用防篡改物品",
+        "Enable tamperproof features on crafted items you wear.": "启用你所穿戴制作物的防篡改功能。",
+        "Enable chaotic/evolving items": "启用混沌/进化物品",
+        "Enable chaotic/evolving features on crafted items you wear.": "启用你所穿戴制作物的混沌/进化功能。",
+        "Block DOGS devious padlocks": "阻止 DOGS 邪恶挂锁",
+        "If checked, LSCG item applier (magic, cursed item, etc) will turn Devious Padlocks into regular Exclusive Padlocks on apply.": "启用后，LSCG 物品施加器（魔法、诅咒物品等）在应用时会将邪恶挂锁转换为普通独占挂锁。",
+        "Blur while edged": "边缘状态时模糊",
+        "Apply extra blurring to the screen while edging.": "处于边缘状态时增加屏幕模糊。",
+        "Hide resizing effects": "隐藏缩放效果",
+        "If checked, you will not see any LSCG resizing effects. (eg. from magic)": "启用后不会显示任何 LSCG 缩放效果（例如魔法造成的效果）。",
+        "Hide all opacity overrides": "隐藏所有透明度覆盖",
+        "If checked, will skip any opacity override effects. (includes x-ray vision)": "启用后会跳过所有透明度覆盖效果（包括 X 光视觉）。",
+        "Prevent remote opacity changes": "禁止远程修改透明度",
+        "If checked, other players will not be able to directly modify the opacity settings on your wardrobe items.": "启用后，其他玩家无法直接修改你衣柜物品的透明度设置。",
+        "General settings for LSCG Conditions.": "LSCG 状态的通用设置。",
+        "Immersive:": "沉浸模式：",
+        "If true, will apply more restrictions while incapacitated by LSCG.": "启用后，在因 LSCG 失去行动能力时会施加更多限制。",
+        "Hypnotized": "催眠",
+        "Settings to control your hypnosis.": "控制催眠状态的设置。",
+        "Sleep": "睡眠",
+        "Settings to control your unconsciousness.": "控制昏迷状态的设置。",
+
+        /* ===== 项圈 & 呼吸控制 ===== */
+        "Enabled the Choking Collar Features.": "启用窒息项圈功能。",
+        "Allow self-tightening": "允许自行收紧",
+        "Allow the wearer to tighten their own collar.": "允许佩戴者自行收紧项圈。",
+        "Allow self-loosening": "允许自行放松",
+        "Allow the wearer to loosen their own collar.": "允许佩戴者自行放松项圈。",
+        "Allowed member IDs": "允许的成员 ID",
+        "Comma separated list of member IDs who can activate the collar. Leave empty for item permissions.": "可以激活项圈的成员 ID，使用逗号分隔。留空则使用物品权限。",
+        "Comma separated list of member IDs exclusive allowed to access your hypno settings and triggers. If empty will use standard Item Permissions.": "允许访问你的催眠设置和触发器的成员 ID，使用逗号分隔。留空则使用标准物品权限。",
+        "Member IDs who can trance/sleep/awaken/orgasm with this activity. Leave empty to use BC item permissions": "可以通过此动作使你进入恍惚/睡眠、唤醒你或让你高潮的成员 ID。留空则使用 BC 物品权限。",
+        "Member numbers, comma separated": "成员编号，用逗号分隔",
+        "Member numbers separated by commas": "成员编号用逗号分隔",
+        "Limit to crafted user": "限制为制作者",
+        "Limits collar activation to crafted user and allowed list. If no crafted user will use item permissions.": "将项圈激活限制为制作者及允许列表。若没有制作者，则使用物品权限。",
+        "Tighten trigger": "收紧触发词",
+        "Word or phrase that, if spoken, will tighten the collar.": "说出此单词或短语后会收紧项圈。",
+        "Loosen trigger": "放松触发词",
+        "Word or phrase that, if spoken, will loosen the collar.": "说出此单词或短语后会放松项圈。",
+        "Immersive": "沉浸模式",
+        "Prevents the wearer from viewing triggers via show-triggers.": "防止佩戴者通过 show-triggers 查看触发词。",
+        "Enable buttons": "启用按钮",
+        "Allows activation of the collar features via buttons (activities & commands).": "允许通过按钮（动作和指令）激活项圈功能。",
+        "Any collar": "任意项圈",
+        "If enabled, any collar can trigger and activate.": "启用后，任何项圈都可以触发并激活。",
+        "Update collar": "更新项圈",
+        "Use the collar currently worn as the control collar.": "使用当前佩戴的项圈作为控制项圈。",
+        "Update": "更新",
+        "Enable hand choking": "启用手部窒息",
+        "Enables breathplay using \"Choke Neck\" activity. If done repeatedly will cause blackout.": "启用使用“Choke Neck”动作进行窒息。反复执行会导致昏厥。",
+        "Enables breathplay using \\\"Choke Neck\\\" activity. If done repeatedly will cause blackout.": "使用「扼颈」互动行为进行呼吸控制。反复进行会导致昏厥。",
+        "Enable gag suffocation": "启用口塞窒息",
+        "Enabled breathplay using nose plugs and sufficient gags.": "启用使用鼻塞和足够的口塞进行窒息。",
+        "Enable chain choking": "启用锁链窒息",
+        "Enabled breathplay using choke chain neck restraint.": "启用使用窒息链颈部束缚进行窒息。",
+        "Sleep on passout": "昏厥后睡眠",
+        "Will force sleep on passout.": "昏厥后强制进入睡眠。",
+        "Sleep time (minutes)": "睡眠时间（分钟）",
+        "How long you will sleep after passout if enabled.": "启用后，昏厥后将睡眠多久。",
+        "Control collar": "控制项圈",
+        "Allow remote access": "允许远程访问",
+        "Enables Remote Access to Collar Settings.": "启用远程访问项圈设置。",
+        "If checked, allowed users can modify these settings.": "启用后，允许的用户可以修改这些设置。",
+        "If checked, allowed users can lock you out of these settings.": "启用后，允许的用户可以将你锁定在这些设置之外。",
+        "Allowes Remote Access Users to lock you out of these settings.": "允许远程访问用户将你锁定在这些设置之外。",
+        "Lockable": "可锁定",
+        "No collar equipped": "未装备项圈",
+        " on ": "在",
+        ".": "。",
+        "Collar updated.": "项圈已更新。",
+        "Current name: ": "当前名称：",
+        " · Current crafter: ": " · 当前制作者：",
+        "** Collar Settings Locked **": "** 项圈设置已锁定 **",
+
+        /* ===== 项圈购买页 ===== */
+        "Now available:": "现已推出：",
+        "Andrew's Collar Control Module!!": "Andrew 的项圈控制模块！！",
+        "- Andrew co.® makes no guarantees as to the behavior of the wearer -": "- Andrew 公司®不对佩戴者的行为做任何保证 -",
+        "Cannot afford...": "负担不起……",
+        "Too expensive? Ask your owner for help!": "太贵了？向你的主人求助吧！",
+        "Unlock Andrew's Collar Module": "解锁 Andrew 的项圈模块",
+        "Has your owner sent you shopping for a more controlling collar?": "你的主人让你购买一条控制力更强的项圈吗？",
+        "Are you looking for some extra motivation for good behavior?": "你是否需要一些额外的动力来保持良好表现？",
+        "Act now and secure your Control Module now for the low low price of $500!": "现在就以超低价 500 美元购买你的控制模块！",
+        "Attach this revolutionary new device to your existing collar and it will": "将这个革命性的新设备安装到现有项圈上，它将",
+        "enhance it with the ability to tighten and loosen on command!": "赋予项圈按指令收紧和放松的能力！",
+        "Let your dom quiet down those bratty moments and reward good behavior!": "让你的主导者平息那些顽皮时刻，并奖励你的良好表现！",
+        "Purchase - $": "购买 - $",
+
+        /* ===== 催眠触发 ===== */
+        "Enabled the Triggered Hypnosis Features.": "启用触发式催眠功能。",
+        "Random trigger": "随机触发",
+        "If enabled, your trigger word will be selected from a list of random english words.": "启用后，将从随机英文单词列表中选择触发词。",
+        "Trigger words": "触发词",
+        "Custom list of words and/or phrases as hypnisis triggers. Separated by a comma.": "自定义催眠触发词或短语列表，用逗号分隔。",
+        "Awaken words": "唤醒词",
+        "Custom list of words and/or phrases as awakener triggers. Separated by a comma.": "自定义唤醒词或短语列表，用逗号分隔。",
+        "Silence trigger words": "禁言触发词",
+        "When spoken while hypnotized, will prevent speech. Separated by a comma.": "催眠状态下说出这些词会阻止说话，用逗号分隔。",
+        "Allow speech trigger words": "允许说话触发词",
+        "When spoken while hypnotized, will allow speech. Separated by a comma.": "催眠状态下说出这些词会允许说话，用逗号分隔。",
+        "Whitelist member IDs": "白名单成员 ID",
+        "Hypnosis length (min.)": "催眠时长（分钟）",
+        "Length of hypnosis time (in minutes) before automatically recovering. Set to 0 for indefinite.": "自动恢复前的催眠时间（分钟）。设为 0 表示无限时长。",
+        "Cooldown (sec.)": "冷却时间（秒）",
+        "Cooldown time (in seconds) before you can be hypnotized again.": "再次被催眠前的冷却时间（秒）。",
+        "Enable cycle": "启用循环",
+        "If checked, only one trigger will be active at a time and will cycle after use.": "启用后，一次只会激活一个触发词，使用后会循环到下一个。",
+        "Trigger cycle time (min.)": "触发循环时间（分钟）",
+        "Number of minutes after activation to wait before cycling to a new trigger.": "激活后等待多少分钟再切换到新的触发词。",
+        "Trance & remote": "恍惚与远程",
+        "Remote access": "远程访问",
+        "Remote access requires trance": "远程访问需要恍惚状态",
+        "If checked, remote access is only possible while actively hypnotized.": "启用后，只有处于催眠状态时才能远程访问。",
+        "Remote access limited to hypnotizer": "远程访问仅限催眠者",
+        "If checked, only the user who hypnotized you can access your settings (after matching other conditions).": "启用后，只有催眠你的人可以访问你的设置（还需满足其他条件）。",
+        "Allow remote override member modification": "允许远程修改覆盖成员",
+        "If checked, any remote users can change your Override Member Id list (otherwise, only owner can).": "启用后，任何远程用户都可以修改你的覆盖成员 ID 列表（否则只有主人可以修改）。",
+        "While hypnotized": "催眠期间",
+        "Build arousal while hypnotized": "催眠时增加兴奋度",
+        "If checked being hypnotized will increase arousal.": "启用后，被催眠时会增加兴奋度。",
+        "Enable spirals": "启用螺旋",
+        "If checked headsets and other spirals can cause trance.": "启用后，耳机和其他螺旋装置可以导致恍惚。",
+        "Enable wake-up on snaps": "启用打响指唤醒",
+        "If checked you exit the trance when you hear someone snapping.": "启用后，听到别人打响指时会退出恍惚。",
+        "Hypnotized eye color": "催眠眼睛颜色",
+        "Hex code of your eye color while hypnotized (default: #A2A2A2).": "催眠时眼睛颜色的十六进制代码（默认：#A2A2A2）。",
+        "Hypnotized eye type": "催眠眼睛样式",
+        "Eye type # to use while under hypnosis (default: 9).": "催眠时使用的眼睛样式编号（默认：9）。",
+        "** Hypnosis Settings Locked **": "** 催眠设置已锁定 **",
+
+        /* ===== 暗示 ===== */
+        "Suggestions": "暗示",
+        "Enable suggestion programming": "启用暗示编程",
+        "If checked, hypnotic suggestions may be induced within you while under trance.": "启用后，恍惚状态下可以向你植入催眠暗示。",
+        "Programming limited to hypnotizer": "暗示编程仅限催眠者",
+        "If checked, only your hypnotizer may induce hypnotic suggestions within you.": "启用后，只有催眠你的人可以向你植入催眠暗示。",
+        "Limit suggestion removal": "限制暗示移除",
+        "If checked, only your owner or whoever added the suggestion can change/remove it.": "启用后，只有你的主人或暗示添加者可以修改/移除暗示。",
+        "Allow suggestion removal": "允许移除暗示",
+        "If checked, you can remove suggestions installed in you with '/lscg remove-suggestion' if you are not immersive and not on extreme difficulty.": "启用后，只要你未处于沉浸模式且不是极端难度，就可以使用“/lscg remove-suggestion”移除体内的暗示。",
+        "Always submit to suggestions": "总是接受暗示",
+        "If checked, you will always submit to suggestions.": "启用后，你将始终接受暗示。",
+        "Always submit to member IDs": "始终接受指定成员 ID 的暗示",
+        "Comma separated list of member IDs. If empty will use standard Item Permissions. You will always submit to their suggestions.": "成员 ID 列表，用逗号分隔。留空则使用标准物品权限。你将始终接受这些成员的暗示。",
+        "Blocked instructions": "阻止的指令",
+        "Toggle which suggestion instructions you want to block on yourself.": "选择要阻止自己接受的暗示指令。",
+        "Block": "阻止",
+        "Suggestions can't give you this instruction.": "暗示无法对你执行此指令。",
+        "Spells can't apply this effect to you.": "法术无法对你应用此效果。",
+        "Spells can't apply this effect to them.": "法术无法对其应用此效果。",
+        "Your own spells still apply this blocked effect.": "你自己的法术仍会应用此被阻止的效果。",
+        "Their own spells still apply this blocked effect.": "其自己的法术仍会应用此被阻止的效果。",
+
+        /* ===== 暗示指令 11 条 ===== */
+        "Orgasm": "高潮",
+        "Denial": "拒绝高潮",
+        "Insatiable": "贪得无厌",
+        "Perform Activity": "执行互动",
+        "Strip": "脱衣",
+        "Assume Pose": "摆姿势",
+        "Follow": "跟随",
+        "Speak Phrase": "说出短语",
+        "Serve": "服侍",
+        "Forget": "遗忘",
+        "Compel the subject to perform an activity.": "强迫对象执行某项互动。",
+        "Compel the subject to follow someone. (Requires LSCG leashing enabled on both)": "强迫对象跟随某人（双方需均启用 LSCG 牵引）。",
+        "Compel the subject to serve drinks.": "强迫对象端茶倒水。",
+        "Induce overwhelming pleasure in the subject.": "在对象身上引发强烈快感。",
+        "Compel the subject to assume a pose.": "强迫对象摆出某个姿势。",
+        "Compel the subject to speak a phrase.": "强迫对象说出某个短语。",
+        "Make the subjects clothing uncomfortable.": "让对象的衣服变得难以忍受。",
+        "Prevent the subject from achieving orgasm.": "阻止对象达到高潮。",
+        "Infuse the subject with an endless arousal.": "给对象注入无尽的兴奋。",
+        "Remove a previous instruction from the subject.": "移除对象先前接受的一条指令。",
+
+        /* ===== 远程暗示配置 ===== */
+        "Configure specific target member id number or name": "指定目标成员ID或名称",
+        "Configure specific phrase": "指定特定短语",
+        "Induce suggestion": "植入暗示",
+        "Induce a new hypnotic suggestion into the subject. Suggestions without a trigger phrase are discarded when you leave.": "向对象植入一个新的催眠暗示。没有触发短语的暗示会在你离开时被丢弃。",
+        "+ Induce new suggestion": "+ 植入新暗示",
+        "Delete suggestion": "删除暗示",
+        "Name this hypnotic suggestion for future reference": "为此催眠暗示命名以便后续引用",
+        "Trigger phrase for this suggestion.": "此暗示的触发短语。",
+        "If checked, only the creator of this suggestion can view, edit, or trigger it.": "勾选后，只有创建此暗示的人可以查看、编辑或触发它。",
+        "Edit…": "编辑…",
+        "Edit��": "编辑…",
+        "Configure…": "配置…",
+        "Configure��": "配置…",
+        "Nothing chosen yet.": "尚未选择。",
+        "No pose": "无姿势",
+        "All slots": "所有槽位",
+        "Random slot": "随机槽位",
+        "No slots": "无槽位",
+        "All instructions": "所有指令",
+        "Select an activity for this instruction": "为此指令选择一个动作",
+        "Please Select a Zone": "请选择一个区域",
+        "Click a zone on the character, or pick it here.": "点击角色身上的区域，或在此选择。",
+        "— choose zone —": "— 选择区域 —",
+        "— remove this effect —": "— 移除此效果 —",
+        "— choose an effect —": "— 选择一个效果 —",
+        "— add another effect —": "— 添加另一个效果 —",
+        "— none, or typed below —": "— 无，或在下方输入 —",
+        "�� choose zone ��": "— 选择区域 —",
+        "�� none, or typed below ��": "— 无，或在下方输入 —",
+        "Overrides the upper and lower pose.": "覆盖上半身和下半身姿势。",
+        "Select clothing slots": "选择服装槽位",
+        "Select instructions to forget": "选择要遗忘的指令",
+
+        /* ===== 互动行为设置页 ===== */
+        "Body zones": "身体区域",
+        "Configure what this activity does when done to you on the selected zone.": "配置在所选区域对你执行此动作时会产生的效果。",
+        "Clear entry": "清除配置",
+        "Remove this activity's configuration for this zone.": "移除该区域对此动作的配置。",
+        "Clear": "清除",
+        "Can induce trance": "可触发恍惚",
+        "Using this activity on this location can trigger hypnosis.": "在此区域执行该动作可以触发催眠。",
+        "Can induce sleep": "可触发睡眠",
+        "Using this activity on this location can put them to sleep.": "在此区域执行该动作可以使其入睡。",
+        "Repeats required": "所需重复次数",
+        "Number times within 5 minutes this activity must be done before hypnosis or sleep is triggered.": "5 分钟内需要执行此动作多少次后才会触发催眠或睡眠。",
+        "Trance arousal threshold": "恍惚兴奋度阈值",
+        "Arousal threshold required for this activity to trigger hypnosis. If both trance and sleep are checked, lower arousal triggers sleep.": "触发催眠所需的兴奋度阈值。如果同时启用恍惚和睡眠，较低的兴奋度会触发睡眠。",
+        "Can awaken": "可唤醒",
+        "Using this activity on this location will awaken you from trance or deep sleep.": "在此区域执行该动作会让你从恍惚或深度睡眠中醒来。",
+        "Can cause orgasm": "可导致高潮",
+        "Using this activity on this location can cause an orgasm.": "在此区域执行该动作可以导致高潮。",
+        "Orgasm arousal threshold": "高潮兴奋度阈值",
+        "Arousal threshold required for this activity to cause an orgasm.": "使此动作导致高潮所需的兴奋度阈值。",
+
+        /* ===== 魔法™ ===== */
+        "Magic": "魔法",
+        "Want to wow and amaze your friends and lovers?": "想让你的朋友和恋人惊叹不已吗？",
+        "Are you looking to impress and punish your enemies?": "想惊艳全场同时惩罚你的敌人吗？",
+        "With just a simple signature you too can experience the thrill of Magic™!": "只需简单签名，你也能体验魔法™的刺激！",
+        "With just a simple signature you too can experience the thrill of Magic?!": "只需简单签名，你也能体验魔法™的刺激！",
+        "- Reveal the ancient secrets of the arcane! -": "- 揭开奥术的古老秘密！ -",
+        "- Craft your own amazing potions! -": "- 制作你自己的神奇药水！ -",
+        "- Share in your powers, or dont! -": "- 分享你的力量，或者不！ -",
+        "~Sign Here~": "~在此签名~",
+        "Apply signature to scroll": "在卷轴上签名",
+        "~ Any sufficiently advanced technology is indistinguishable from magic ~": "~任何足够先进的技术都与魔法无异 ~",
+        "* Signatory agrees to Magic™ Installation (ᴘᴀᴛ. ᴘᴇɴᴅ.) required to experience spell effects *": "* 签名者同意安装魔法™（专利申请中）以体验法术效果 *",
+        "* Signatory agrees to Magic? Installation (???. ????.) required to experience spell effects *": "* 签名者同意安装魔法™以体验法术效果 *",
+        "Use Magic™ and let spells affect you.": "使用魔法™，让法术对你生效。",
+        "Use Magic? and let spells affect you.": "使用魔法™并允许法术对你生效。",
+        "Wild magic": "混沌魔法",
+        "Enable wild magic": "启用混沌魔法",
+        "Cast a random spell from the spell list, with a chance of a truly random spell.": "从法术列表中随机施放一个法术，并有概率施放完全随机的法术。",
+        "Force wild magic": "强制混沌魔法",
+        "Prevents choosing which spell to cast.": "禁止选择要施放的法术。",
+        "True wild magic": "真正的混沌魔法",
+        "Always generates a truly random spell.": "始终生成完全随机的法术。",
+        "Other": "其他",
+        "Prevent X-ray vision": "防止 X 光视觉",
+        "Lead-lines all your clothing.": "为你的所有衣物加装铅衬。",
+        "Lead-lines all their clothing.": "为他们的所有衣物加装铅衬。",
+        "Blocked effects": "阻止的效果",
+        "Blocked effects never apply to you. \"Allow self\" still lets your own spells apply them.": "被阻止的效果永远不会对你生效。“允许自己”仍会让你自己的法术对其生效。",
+        "Blocked effects never apply to them. \"Allow self\" still lets their own spells apply them.": "被阻止的效果永远不会对其生效。“允许自己”仍会让其自己的法术对其生效。",
+        "Allow self": "允许自己",
+        "Added by an extension.": "由扩展添加。",
+        "Added by an extension": "由扩展添加",
+        "Comes from an extension this client doesn't have.": "来自此客户端未安装的扩展。",
+        "not installed": "未安装",
+        "Not installed.": "未安装。",
+        "Spells": "法术",
+        "Known spells": "已知法术",
+
+        /* ===== 魔法效果名称与说明（0.9.6 内置效果） ===== */
+        "Hypnotizing": "催眠",
+        "Hypnotizes the target.": "催眠目标。",
+        "Slumbering": "沉睡",
+        "Induces a deep slumber in the target.": "使目标陷入深度睡眠。",
+        "Arousing": "唤起兴奋",
+        "Arouses the target.": "使目标兴奋。",
+        "Blinding": "致盲",
+        "Prevents the target from seeing.": "使目标无法视物。",
+        "Deafening": "致聋",
+        "Prevents the target from hearing.": "使目标无法听见声音。",
+        "Gagged": "口塞",
+        "Gags the target.": "使目标被堵住嘴巴。",
+        "Petrifying": "石化",
+        "Petrifies the target.": "使目标身体僵硬。",
+        "Enlarging": "放大",
+        "Enlarges the target to twice their size.": "将目标放大至两倍大小。",
+        "Bless": "祝福",
+        "Applies a +5 buff to all the target's skills for 15 minutes": "使目标所有技能获得 +5 增益，持续 15 分钟。",
+        "Bane": "诅咒",
+        "Applies a -5 debuff to all the target's skills for 15 minutes": "使目标所有技能获得 -5 减益，持续 15 分钟。",
+        "Pairing": "配对",
+        "Pair two targets, such that when one feels arousal the other also does.": "连接两个目标，使其中一人的兴奋也传递给另一人。",
+        "Siphoning": "抽取",
+        "Redirect all of the target's orgasmic pleasure to another.": "将目标的所有高潮快感转移给另一人。",
+        "Outfit": "套装",
+        "Magically change the target's clothing and equipment.": "用魔法改变目标的服装和装备。",
+        "Polymorph": "变形",
+        "Polymorph the target's body and/or cosplay items": "改变目标的身体和／或 Cosplay 物品。",
+        "Dispel": "驱散",
+        "Dispels any existing effects on the target (including anything drug induced).": "驱散目标身上现有的所有效果（包括药物造成的效果）。",
+        "X-Ray Vision": "X 光透视",
+        "Grants the target X-Ray vision": "赋予目标 X 光视觉。",
+        "Magic Barrier": "魔法屏障",
+        "Create a magic barrier that protect and reflect incoming spell": "创造能够防护并反弹来袭法术的魔法屏障。",
+        "Disarming": "缴械",
+        "Disarm the target": "解除目标的手持物品。",
+        "Denying": "拒绝高潮",
+        "Denies the target any orgasms.": "禁止目标达到高潮。",
+        "Forced Orgasm": "强制高潮",
+        "Forced an orgasm upon the target.": "强制目标达到高潮。",
+        "Project the target's soul into the Astral Plane": "将目标的灵魂投射到星界。",
+        "Tightening": "收紧",
+        "Tightens every unlocked restraint on the target.": "收紧目标身上所有未锁定的束缚。",
+        "Loosening": "放松",
+        "Loosens every unlocked restraint on the target.": "放松目标身上所有未锁定的束缚。",
+
+        "Create your arcane sorceries and potions. Use Edit… to choose a spell's effects.": "创建你的奥术法术和药剂。使用“编辑…”选择法术效果。",
+        "+ New spell": "+ 新建法术",
+        "Forget spell": "遗忘法术",
+        "No effects yet": "尚未添加效果",
+        "Can be cast by typing its name (or casting phrase) and a target.": "可以输入法术名称（或施法短语）和目标来施放。",
+        "Can be brewed into a crafted drink named after it. Not possible with a paired effect.": "可以酿造成以该法术命名的制作饮品。具有配对效果时无法使用。",
+        "Allow voice casting": "允许语音施法",
+        "Cast by typing the spell's name, or its casting phrase, followed by the target's name.": "输入法术名称或施法短语，再输入目标名称即可施法。",
+        "Casting phrase": "施法短语",
+        "Optional phrase to use instead of the spell's name when voice casting.": "语音施法时可选用此短语代替法术名称。",
+        "Allow potion": "允许制作药剂",
+        "Can be brewed into crafted bottles, glasses or mugs named after the spell. Not possible for spells with a paired effect.": "可以酿造成以该法术命名的制作瓶、杯或马克杯。具有配对效果的法术无法使用。",
+        "What the spell does to its target, one after another in this order. Up to ": "法术对目标依次施加效果，按此顺序执行。最多 ",
+        " effects.": "个效果。",
+        "Effect 1": "效果1",
+        "Effect 2": "效果2",
+        "Effect 3": "效果3",
+        "Effect 4": "效果4",
+        "Effect 5": "效果5",
+        "From extensions": "来自扩展",
+        "Outfit settings: no outfit chosen yet": "服装设置：尚未选择服装",
+        "Polymorph settings: no outfit chosen yet": "变形设置：尚未选择服装",
+        "No outfit chosen yet": "尚未选择服装",
+        "⚠ No outfit chosen": "⚠ 未选择套装",
+        "No outfit chosen": "未选择服装",
+        "This spell has more than your limit of ": "此法术的效果数量超过了你的限制",
+        " effects. Remove some before adding others.": " 个效果。请先删除一些，再添加其他效果。",
+        "One of your saved LSCG outfits.": "你保存的 LSCG 服装之一。",
+        "You have no saved LSCG outfits. Enter a name below instead.": "你没有已保存的 LSCG 服装。请在下方输入名称。",
+        "Other outfit": "其他套装",
+        "Name, slot number or pasted code": "名称、槽位编号或粘贴的代码",
+        "An outfit name from your MBS wheel, a wardrobe slot number, or a pasted outfit code.": "输入 MBS 转盘中的套装名称、衣柜槽位编号或粘贴的套装代码。",
+        "Parts to put on": "要穿上的部位",
+        "Clothes, restraints, or both. Items of these kinds already worn are taken off first.": "服装、束缚或两者。已穿戴的同类物品会先被脱下。",
+        "both": "两者",
+        "Both": "两者",
+        "Clothes Only": "仅衣物",
+        "Restraints Only": "仅束缚",
+        "Clothes and Restraints": "衣物和束缚",
+        "Applies cosplay items from the outfit.": "应用套装中的 Cosplay 物品。",
+        "Changes the whole body: hair, skin, jewelry, makeup and genitals.": "改变整个身体：头发、皮肤、饰品、妆容和生殖器。",
+        "Hair": "头发",
+        "Skin, jewelry and makeup": "皮肤、饰品和妆容",
+        "Genitals": "生殖器",
+        "Defense": "防御",
+        "Never defend": "从不防御",
+        "You never roll to resist spells.": "你永远不会掷骰抵抗法术。",
+        "They never roll to resist spells.": "他们永远不会掷骰抵抗法术。",
+        "Defenseless against": "防御豁免对象",
+        "You never resist spells from these members.": "你永远不会抵抗这些成员施放的法术。",
+        "They never resist spells from these members.": "他们永远不会抵抗这些成员施放的法术。",
+        "Limited spell duration": "限制法术持续时间",
+        "Harmful spell effects wear off eventually; the worse you fail the roll against the caster, the longer they last.": "有害法术效果最终会消退；你对抗施法者的检定失败得越严重，效果持续越久。",
+        "Harmful spell effects wear off eventually; the worse they fail the roll against the caster, the longer they last.": "有害法术效果最终会消退；他们抵抗施法者的骰值失败越惨，效果持续越久。",
+        "Maximum duration (minutes)": "最长持续时间（分钟）",
+        "Longest any spell effect lasts. 0 means no maximum.": "任何法术效果的最长持续时间。0 表示无上限。",
+        "Require whitelist": "要求白名单",
+        "Only people on your whitelist can cast spells on you or teach you spells.": "只有白名单中的人可以对你施放法术或教你法术。",
+        "Outfits and polymorph": "套装与变形",
+        "Outfits may change neck items": "套装可以更换颈部物品",
+        "Outfit effects can replace your neck items.": "服装效果可以替换你的颈部物品。",
+        "Outfit effects can replace their neck items.": "服装效果可以替换他们的颈部物品。",
+        "Polymorph may change genitals": "变形可以更改生殖器",
+        "Polymorph may change pronouns": "变形可以更改代词",
+        "How remote access to this player's Magic™ settings works.": "如何远程访问该玩家的魔法™设置。",
+        "Let other players change your Magic™ settings through LSCG's remote settings.": "让其他玩家通过 LSCG 的远程设置更改你的魔法™设置。",
+        "Allowed players can change these settings.": "允许的玩家可以修改这些设置。",
+        "Allowed players can lock you out of these settings.": "允许的玩家可以将你锁定在这些设置之外。",
+        "If empty, normal item permissions decide.": "留空则由普通物品权限决定。",
+        "Requires trance": "需要恍惚",
+        "Remote access only works while you are hypnotized.": "只有你处于催眠状态时才能远程访问。",
+        "Remote access only works while they are hypnotized.": "仅在他们被催眠时远程访问才有效。",
+        "Only the hypnotizer": "仅催眠者",
+        "Only whoever hypnotized you gets remote access.": "只有催眠你的人可以获得远程访问权限。",
+        "Only whoever hypnotized them gets remote access.": "只有催眠他们的人能获得远程访问。",
+        "** Magic™ settings are locked remotely **": "** 魔法™ 设置已被远程锁定 **",
+        "** Magic? settings are locked remotely **": "** 魔法™设置已被远程锁定 **",
+
+        /* ===== 灵魂出窍 Astral Projection ===== */
+        "Astral projection": "星界投射",
+        "Astral Projection": "灵魂出窍",
+        "Spirit form": "灵体形态",
+        "How you look and sound while projected.": "投射期间的外观和声音。",
+        "Spirit speech": "灵体语音",
+        "Spirit color": "灵体颜色",
+        "Tint for your projection.": "投射时使用的颜色。",
+        "Spirit outfit": "灵体套装",
+        "Outfit used for your spirit form. Best if it includes all body, cosplay and clothing.": "灵体形态使用的套装。最好包含全身、Cosplay 和服装。",
+        "Hide corporeal form": "隐藏肉身",
+        "Your body vanishes while you're projected.": "投射期间你的肉身会消失。",
+        "Disable soul bindings": "禁用灵魂束缚",
+        "Soul-bound restraints can't bind your spirit form.": "灵魂绑定的束缚无法束缚你的灵体形态。",
+
+        /* ===== 注射器 / 药物 ===== */
+        "Enable Enhanced Drinks, Injectors and Net Gun.": "启用强化饮品、注射器和网枪。",
+        "Filled glass sip limit": "装满的杯子饮用次数上限",
+        "Number of sips before your filled glasses empty. (0 for no limit)": "装满的杯子在多少次饮用后会变空。（0 表示无限制）",
+        "Show drug levels": "显示药物等级",
+        "Displays bars showing the level of each drug type.": "显示各类药物的等级条。",
+        "Heartbeat sound": "心跳声",
+        "An occasional heartbeat sound while under the influence of aphrodisiac.": "受催情剂影响时偶尔播放心跳声。",
+        "Chaotic net gun": "混沌网枪",
+        "Your net gun fires wildly and has a 50/50 chance to net a random character instead of your target.": "你的网枪会随机射击，并有 50% 的概率捕获随机角色而非目标。",
+        "Drugs": "药物",
+        "LSCG's drugs": "LSCG 的药物",
+        "Each activates for any injector or drink with one of its keywords in its crafted name or description.": "任何注射器或饮品的制作名称或描述中包含其关键词时，该药物都会生效。",
+        "Sedative": "镇静剂",
+        "Activates for \"sedative\" or \"tranquilizer\".": "在制作名称或描述包含“sedative”或“tranquilizer”时生效。",
+        "Activates for \\\"sedative\\\" or \\\"tranquilizer\\\".": "对名称/描述含「sedative」或「tranquilizer」的物品激活。",
+        "Brainwash drug": "洗脑药物",
+        "Activates for \"mind control,\" \"hypnotizing,\" or \"brainwashing\".": "在制作名称或描述包含“mind control”、“hypnotizing”或“brainwashing”时生效。",
+        "Activates for \\\"mind control,\\\" \\\"hypnotizing,\\\" or \\\"brainwashing\\\".": "对名称/描述含「mind control」「hypnotizing」或「brainwashing」的物品激活。",
+        "Aphrodisiac": "催情剂",
+        "Activates for \"horny\" or \"aphrodisiac\".": "在制作名称或描述包含“horny”或“aphrodisiac”时生效。",
+        "Activates for \\\"horny\\\" or \\\"aphrodisiac\\\".": "对名称/描述含「horny」或「aphrodisiac」的物品激活。",
+        "How fast they wear off": "消退速度",
+        "Minutes for one dose to wear off while you're online. Leave at 0 for LSCG's default.": "在线时一剂药物消退所需的分钟数。设为 0 使用 LSCG 默认值。",
+        "Default: ": "默认：",
+        " minutes per dose.": "分钟/剂。",
+        "Extension drugs": "扩展药物",
+        "Drugs added by extensions. Each one only affects you once you enable it.": "由扩展添加的药物。启用后才会对你生效。",
+        "No installed extension adds a drug.": "没有已安装的扩展添加药物。",
+        "Drug": "药物",
+        "Activates for": "生效条件",
+        "Lets this drug affect you.": "允许该药物影响你。",
+        "Gases & chloroform": "气体与氯仿",
+        "Gases": "气体",
+        "Respirators can deliver a continuous supply of drugged gas.": "呼吸器可以持续供应含药气体。",
+        "Allow continuous delivery": "允许持续供给",
+        "Allows respirators to deliver a continuous supply of drugged gas.": "允许呼吸器持续供应含药气体。",
+        "Inexhaustible gases": "无限气体",
+        "Any continuous delivery (e.g. a respirator) on you never runs out of gas.": "你身上的持续供给装置（例如呼吸器）永远不会耗尽气体。",
+        "Chloroform": "氯仿",
+        "Enable chloroform": "启用氯仿",
+        "Fall asleep if chloroformed.": "被氯仿迷晕后入睡。",
+        "Chloroform never fades": "氯仿永不消退",
+        "One rag over your mouth lasts forever until removed; otherwise its potency fades after an hour.": "嘴上的一块浸氯仿布在移除前会永远生效，否则药效会在一小时后消退。",
+        "## Chloroform": "## 氯仿",
+
+        /* ===== 诅咒物品 ===== */
+        "Enable cursed items": "启用诅咒物品",
+        "Enable Cursed Items.": "启用诅咒物品。",
+        "Vulnerable": "易受影响",
+        "If checked, you are vulnerable to cursed items and susceptable to their effects when worn...": "启用后，你会容易受到诅咒物品影响，并在穿戴时受到其效果……",
+        "Allowed crafter": "允许的制作者",
+        "Who's cursed items can can activate on you. (based on: Public < Friend < Whitelist < Lover < Owner < Self)": "谁制作的诅咒物品可以对你生效（权限依次为：公开 < 好友 < 白名单 < 恋人 < 主人 < 自己）。",
+        "Everyone (except blacklisted)": "所有人（黑名单除外）",
+        "Friends and above": "好友及以上",
+        "Whitelisted and above": "白名单及以上",
+        "Lovers and above": "恋人及以上",
+        "Owners or Self": "主人或自己",
+        "Self Only": "仅自己",
+        "Suppress emotes": "禁止表情",
+        "Suppress emote": "禁止表情",
+        "If true, no cursed items on you will publically emote as they grow item by item. They will still inform locally.": "启用后，你身上的诅咒物品逐件生效时不会公开发送表情，但仍会本地提示。",
+        "If checked, this item will not publically emote as it grows item by item. They will still inform locally.": "启用后，该物品逐件生效时不会公开发送表情，但仍会本地提示。",
+        "Always exhaust": "总是耗尽",
+        "If true, All cursed items on you will exhaust after applying their outfit regardless of item settings.": "启用后，你身上的所有诅咒物品应用套装后都会耗尽，无视物品自身设置。",
+        "Prevent impossible curse items": "阻止不可能的诅咒物品",
+        "If true, a cursed set will not add items to groups that are blocked at the time of curse application (ie: a curse will not add a vibrator under locked chastity).": "启用后，诅咒套装不会向应用时被阻止的组添加物品（例如不会在锁定的贞操装置下添加振动器）。",
+        "Create a cursed item that can spread. Its name is the trigger phrase a crafted item needs. Use Edit… for its speed and stripping.": "创建可以传播的诅咒物品。其名称就是制作物品需要使用的触发短语。使用“编辑…”设置传播速度和脱衣效果。",
+        "+ New cursed item": "+ 新建诅咒物品",
+        "Delete cursed item": "删除诅咒物品",
+        "Cursed Item No. ": "诅咒物品第 ",
+        "If checked, this cursed item is active and can spread.": "启用后，该诅咒物品处于激活状态并可以传播。",
+        "Applied outfit": "应用套装",
+        "Outfit name that will be applied by the cursed item.": "诅咒物品将应用的套装名称。",
+        "If checked, this cursed item will continue to enforce its outfit until removed.": "启用后，该诅咒物品会持续强制应用套装，直到被移除。",
+        "Strip level": "脱衣等级",
+        "Determines what type of non-outfit appearance items will also be removed.": "决定还会移除哪些非套装外观物品。",
+        "Clothing": "服装",
+        "Underwear": "内衣",
+        "Clothes + Underwear": "衣物 + 内衣",
+        "Clothes + Cosplay": "衣物 + Cosplay",
+        "Underwear + Cosplay": "内衣 + Cosplay",
+        "Clothes + Underwear + Cosplay": "衣物 + 内衣 + Cosplay",
+        "Insta-strip": "立即脱衣",
+        "If true, the victim will be stripped instantly regardless of apply speed.": "启用后，无论应用速度如何，目标都会立即脱衣。",
+        "Apply speed": "应用速度",
+        "Determines how fast the cursed item applies its outfit.": "决定诅咒物品应用套装的速度。",
+        "Slow (15 minutes per item)": "慢速（每件 15 分钟）",
+        "Medium (1 minute per item)": "中速（每件 1 分钟）",
+        "Fast (10 seconds per item)": "快速（每件 10 秒）",
+        "Instant": "立即",
+        "Custom (seconds)": "自定义（秒）",
+        "Custom speed (seconds)": "自定义速度（秒）",
+        "Determines the speed (in seconds). Must be between 1 and 3600 (1 hour)": "决定速度（秒）。必须介于 1 和 3600（1 小时）之间。",
+        "Each item applies after ": "每件物品在",
+        "— choose outfit —": "— 选择服装 —",
+        "— no saved outfits —": "— 没有已保存的套装 —",
+
+        /* ===== 重置 ===== */
+        "- Permanent reset of ALL LSCG data -": "- 永久重置所有 LSCG 数据 -",
+        "- Warning -": "- 警告 -",
+        "If you confirm, all LSCG data (including settings, overrides, and current states) will be permanently reset!": "确认后，所有 LSCG 数据（包括设置、覆盖项和当前状态）都将被永久重置！",
+        "You will be able to continue using LSCG, but all of your configuration will be reset to default!": "你仍可继续使用 LSCG，但所有配置都会恢复为默认值！",
+        "This action cannot be undone!": "此操作无法撤销！",
+        "Resetting...": "正在重置……",
+        "Confirm (": "确认（",
+        ")": "）",
+
+        /* ===== 体液喷射 ===== */
+        "Enable splatters": "启用飞溅效果",
+        "Who can splatter you": "谁可以对你施加飞溅效果",
+        "Appearance": "外观",
+        "Enable splatter integration.": "启用飞溅效果整合。",
+        "Give splatters": "施加飞溅效果",
+        "Allow splattering on others.": "允许对他人施加飞溅效果。",
+        "Receive splatters": "接受飞溅效果",
+        "Allow others to splatter you.": "允许他人对你施加飞溅效果。",
+        "Auto splatter": "自动飞溅",
+        "If enabled, will prompt for splatter on orgasm.": "启用后，在高潮时会提示施加飞溅效果。",
+        "Minimum required arousal": "最低所需兴奋度",
+        "Minimum arousal required to do give splatter.": "施加飞溅效果所需的最低兴奋度。",
+        "Uncontrollable when bound": "被束缚时不可控",
+        "If enabled, the user will only be able to control where splatter is applied if unrestrained.": "启用后，只有未被束缚时才能控制飞溅效果施加的位置。",
+        "Lovers only": "仅恋人",
+        "If enabled, only your lovers and whitelist will be able to apply splatters to you.": "启用后，只有你的恋人和白名单成员可以对你施加飞溅效果。",
+        "Splatter whitelist": "飞溅白名单",
+        "Set member numbers who are explicitly allowed to splatter on you. Comma separated list of member IDs.": "设置明确允许对你施加飞溅效果的成员编号，用逗号分隔。",
+        "Splatter blacklist": "飞溅黑名单",
+        "Set member numbers who are explicitly blocked from splattering on you. Comma separated list of member IDs.": "设置明确禁止对你施加飞溅效果的成员编号，用逗号分隔。",
+        "Splatter color override": "飞溅颜色覆盖",
+        "Override color [hex code] for splatter application. Can comma separate possible values (eg: #FFF, #F0F0F0).": "覆盖飞溅效果的颜色【十六进制代码】。可用逗号分隔多个候选值（例如：#FFF、#F0F0F0）。",
+        "Splatter opacity % override": "飞溅透明度覆盖 %",
+        "Override opacity for splatter application. Can comma separate possible values and provide range (eg: 20, 60-70).": "覆盖飞溅效果的透明度。可用逗号分隔多个候选值并指定范围（例如：20、60-70）。",
+        "Who do you want to cum on?": "你想射在谁身上？",
+        "Who do you want to squirt on?": "你想喷在谁身上？",
+        "Where on ": "喷在",
+        " do you want to cum?": "身上的哪里？",
+        " do you want to squirt?": "身上的哪里？",
+
+        /* ===== 增强光照 ===== */
+        "Enhance map lighting": "增强地图照明",
+        "If checked, map lighting will become more dynamic based on light sources [EXPERIMENTAL].": "启用后，地图照明会根据光源动态变化【实验性】。",
+        "Disable lighting animation": "禁用照明动画",
+        "If checked, lighting animations will be disabled (Enable if maps running slow).": "启用后会禁用照明动画（地图运行缓慢时可启用）。",
+        "Use room's ambient darkness": "使用房间环境黑暗",
+        "If checked, will use the room customization filter as ambient darkness (Recommended).": "启用后，使用房间自定义滤镜作为环境黑暗效果（推荐）。",
+
+        /* ===== 言语分析 ===== */
+        "Line": "句子",
+        "I'm so stupid": "我真蠢",
+        "Tune": "调校",
+        "Show tune buttons in chat": "在聊天中显示调校按钮",
+        "Adds a small ≈ button beside your own chat lines (on hover) that shows how the line read and offers quick fixes. Saved with your account.": "将一个小型 ≈ 按钮添加到你自己的聊天内容旁（悬停时显示），用于查看分析结果并提供快速修正。设置会随账号保存。",
+        "Says: ": "说：",
+        "(detector off)": "（检测器已关闭）",
+        "hidden — set by ": "已隐藏 — 设置者：",
+        "(deleted group)": "（已删除的组）",
+        "Master switch: analyze your own chat lines and run the reaction rules.": "总开关：分析你自己的聊天内容并运行反应规则。",
+        "Debug log": "调试日志",
+        "Print each line's analysis to the browser console.": "将每句话的分析结果输出到浏览器控制台。",
+        "Negative threshold": "负面阈值",
+        "Sentiment score (per word) below which self-talk counts as negative.": "每词情感分数低于此值时，你自己的发言会被视为负面。",
+        "Positive threshold": "正面阈值",
+        "Sentiment score (per word) above which self-talk counts as a positive affirmation.": "每词情感分数高于此值时，你自己的发言会被视为正面肯定。",
+        "Context sensitivity": "上下文敏感度",
+        "How clearly positive or negative someone else's message must be before a reply to it counts.": "他人的消息需要多明显地呈现正面或负面，你的回复才会被计入。",
+        "Context window (seconds)": "上下文窗口（秒）",
+        "How long a message said to you can still be answered.": "一条对你说的消息在多久内仍会被视为可回应。",
+        "Maximum grade level": "最高年级",
+        "Flesch-Kincaid grade. Lines of 5+ words at or above this count as too complex.": "Flesch-Kincaid 年级。包含至少 5 个单词且达到此等级的句子会被视为过于复杂。",
+        "Tone thresholds & reading level": "语气阈值与阅读难度",
+        "Puts the negative/positive thresholds, context settings, and reading-level grade back to default.": "将负面/正面阈值、上下文设置和阅读等级恢复为默认值。",
+        "Entire speech analysis config": "完整语音分析配置",
+        "Puts detectors, thresholds, vocabulary, phrase groups and reaction rules back to default. Doesn't change whether the module or remote access is enabled. This can't be undone.": "将检测器、阈值、词汇、短语组和反应规则恢复为默认值。不会改变模块或远程访问是否启用。此操作无法撤销。",
+        "Detectors": "检测器",
+        "Each detector can be switched off on its own. Reaction rules for a disabled detector never fire.": "每个检测器都可单独关闭。被禁用检测器的反应规则永远不会触发。",
+        "Tone": "语气",
+        "Reading level": "阅读难度",
+        "Reset to default": "恢复默认",
+        "Reset speech analysis?": "重置语音分析？",
+        "This clears your detectors, thresholds, vocabulary, phrase groups, and every reaction rule, and puts them all back to default. This can't be undone.": "这会清空你的检测器、阈值、词汇表、短语组以及所有反应规则，并将它们恢复默认。此操作无法撤销。",
+        "Reset everything": "重置全部",
+        "Reset everything…": "全部重置……",
+        "Vocabulary": "词汇",
+        "Affirmations": "肯定语句",
+        "Affirmation phrases": "肯定短语",
+        "I am a good girl, I am worthy": "我是个好女孩，我值得",
+        "Any of these phrases always counts as a positive affirmation. Comma separated; use quotes for phrases containing commas.": "这些短语中的任意一个都会始终被视为正面肯定。用逗号分隔；包含逗号的短语请使用引号。",
+        "Vocabulary overrides": "词汇覆盖",
+        "Word scores": "单词评分",
+        "Adjust how words score, from -5 (very negative) to 5 (very positive). Format: word:score, e.g. bratty:0, failure:-3": "调整单词评分，范围为 -5（非常负面）到 5（非常正面）。格式：word:score，例如 bratty:0、failure:-3。",
+        "Also profane": "也视为粗俗",
+        "Never profane": "从不视为粗俗",
+        "damn, hell": "Groups of words or phrases to listen for, such as release phrases or banned words. Pick a group under Reactions ('Says: …') to decide what happens when one is spoken. Comma separated; quote phrases that contain commas. Matches whole words, ignoring case. Phrases set by someone else through remote access are hidden from you.",
+        "Adjust what counts as profanity. Comma separated, exact words or phrases, whole words only, ignoring case.": "调整哪些内容算作粗俗用语。用逗号分隔，必须是完整单词或短语，不区分大小写。",
+        "Phrase lists": "短语列表",
+        "Says: (deleted group)": "说出：（已删除的组）",
+        "Groups of words or phrases to listen for, such as release phrases or banned words. Pick a group under Reactions ('Says: …') to decide what happens when one is spoken. Comma separated; quote phrases that contain commas. Matches whole words, ignoring case. Phrases set by someone else through remote access are hidden from you.": "用于监听的词语或短语组，例如释放短语或禁用词。在「反应规则」下选择一个组（「说：……」），以决定说出其中词语时发生什么。使用逗号分隔；包含逗号的短语请加引号。匹配完整单词，不区分大小写。其他人通过远程访问设置的短语对你隐藏。",
+        "Groups of words or phrases to listen for, such as release phrases or banned words. Pick a group under Reactions ('Says: …') to decide what happens when one is spoken. Comma separated; quote phrases that contain commas. Matches whole words, ignoring case. Phrases you set are hidden from the wearer. You only see phrases you set yourself, unless you are their owner or lover.": "用于监听的词语或短语组，例如释放短语或禁用词。在「反应规则」下选择一个组（「说：……」），以决定说出其中词语时发生什么。使用逗号分隔；包含逗号的短语请加引号。匹配完整单词，不区分大小写。你设置的短语会对佩戴者隐藏。除非你是对方的主人或恋人，否则你只能看到自己设置的短语。",
+        "Phrases": "短语",
+        "New group": "新建组",
+        "Group name": "组名",
+        "Delete group": "删除组",
+        "Reaction rules": "反应规则",
+        "Each enabled rule runs when its detection fires. 'Remove state' rules only clear a state; they never apply anything.": "每条启用的规则会在对应检测触发时运行。“移除状态”规则只会清除状态，不会应用任何效果。",
+        "When": "触发条件",
+        "Do": "执行",
+        "How long the effect lasts, in seconds. 0 = until removed (by a rule, its own timer, or safeword).": "效果持续时间（秒）。0 = 直到被移除（由规则、自身计时器或安全词移除）。",
+        "Seconds before this rule can fire again, so repeated lines don't stack the effect.": "该规则再次触发前的等待秒数，避免重复发言叠加效果。",
+        "Negative tone": "负面语气",
+        "Positive affirmation": "正面肯定",
+        "Profanity": "粗俗用语",
+        "Reading level too high": "阅读难度过高",
+        "Says a phrase from": "说出短语组中的短语",
+        "Apply state": "应用状态",
+        "Remove state": "移除状态",
+        "Shock (worn device)": "电击（穿戴装置）",
+        "Apply outfit": "应用套装",
+        "Force orgasm": "强制高潮",
+        "Trance (hypnotized)": "恍惚（催眠）",
+        "Outfit (restore clothes)": "套装（恢复衣物）",
+        "Owner only": "仅主人",
+        "Owner and lovers": "主人与恋人",
+        "Whitelist, lovers and owner": "白名单、恋人和主人",
+        "Everyone except blacklist": "除黑名单外的所有人",
+        "Everyone": "所有人",
+        "Nothing (add only)": "无（仅添加）",
+        "Remote configuration": "远程配置",
+        "Let other players change these settings through LSCG remote settings.": "允许其他玩家通过 LSCG 远程设置修改这些选项。",
+        "Prevent the wearer from changing these settings. Only available if they allowed lockout.": "禁止佩戴者修改这些设置。仅在其允许锁定时可用。",
+        "Allow remote configuration": "允许远程配置",
+        "Who can configure": "谁可以配置",
+        "Remote configuration only works while you are hypnotized, in addition to the permission level above.": "除上述权限等级外，只有你处于催眠状态时才能进行远程配置。",
+        "Allow lockout": "允许锁定",
+        "Remote configurers may lock you out of changing these settings. Safeword releases the lock.": "远程配置者可以禁止你修改这些设置。安全词可以解除锁定。",
+        "Try a line": "试试一句话",
+        "See how a line reads and why. Pick any word to score it or flag it as profane. Hover a tag to see what it changes; nothing changes until you click one.": "查看一行如何被解读及其原因。选择任意单词打分或标记为脏话。悬停标签查看其更改内容；点击前不会有任何改变。",
+        "Try this line": "试试这句话",
+        "Ignore the word \"": "忽略单词「",
+        "\" (score 0)": "」（分数 0）",
+        ": it stops pushing any line negative or positive.": "：该词不会使任何语句的情感分数向正面或负面偏移。",
+        "Count \"": "将「",
+        "\" as negative (-3)": "」视为负面（-3）",
+        ": lines about you that use it will read as negative.": "：使用该词的关于你的行会被解读为负面。",
+        "\" as positive (+3)": "」视为正面（+3）",
+        ": lines about you that use it will read as positive.": "：使用该词的关于你的行会被解读为正面。",
+        "Never treat \"": "永远不将「",
+        "\" as profane": "」视为脏话",
+        ": it is allowed in every line you say.": "：它在你说的每一行中都是允许的。",
+
+        /* ===== 地图 Maps ===== */
+        "Use alternate blinding effect": "使用替代致盲效果",
+        "If checked, you will use an alternate blinding effect while in maps.": "启用后，在地图中使用替代的致盲效果。",
+        "Hide vanilla fog squares": "隐藏原版迷雾方块",
+        "If checked, the vanilla fog squares will be hidden leaving just the enhanced vision lines.": "启用后隐藏原版迷雾方块，只保留增强视野线。",
+        "Hide dark lights": "隐藏黑暗光源",
+        "If checked, lights that emit 'darkness' will not be used.": "启用后，不会使用会产生“黑暗”的光源。",
+
+        /* ===== 服装收藏 Outfit Collection ===== */
+        "Delete Outfit": "删除套装",
+        "Edit in Wardrobe": "在衣柜中编辑",
+        "Clone Outfit": "克隆套装",
+        "Save Outfit:\nMissing outfit": "保存服装：\n缺少服装",
+        "Save Outfit:\\nMissing outfit": "保存套装：\\n缺少套装",
+        "Outfit name": "套装名称",
+        "Outfit code": "服装代码",
+        "Item group": "物品组",
+        "Outfit key": "套装键",
+        "A key from the wearer's own outfit collection.": "来自佩戴者自己套装收藏夹的键。",
+        "Strip first": "先脱衣",
+        "Items from the outfit replace whatever is in the same slot; nothing else is removed unless chosen here. The previous outfit is restored when the effect ends.": "套装中的物品会替换同一槽位的现有物品；除非在此选择，否则不会移除其他物品。效果结束后会恢复之前的套装。",
+        "Invalid name: Already exists! \nTry Again?": "名称无效：已存在！\n是否重试？",
+        "Invalid name: Already exists! \\nTry Again?": "名称无效：已存在！\n是否重试？",
+        "Toggle Shared Crafts": "切换共享制作物",
+
+        /* ===== 制作物品扩展选项 ===== */
+        "Chaotic": "混乱",
+        "Change randomly the item's extended options, every 10min (Incompatible with Evolving)": "每 10 分钟随机更改物品的扩展选项（与进化不兼容）",
+        "Evolving": "进化",
+        "Change progressively the item's extended options, until last option is reached, every 10min (Incompatible with Chaotic)": "每 10 分钟渐进式更改物品的扩展选项，直到最后一个选项（与混乱不兼容）",
+        "Slow": "缓慢",
+        "Increase the trigger time for Chaotic and Evolving to 30min (Only for Chaotic or Evolving, Incompatible with Quick)": "将混乱和进化的触发时间增加到 30 分钟（仅适用于混乱或进化，与快速不兼容）",
+        "Quick": "快速",
+        "Reduce the trigger time for Chaotic and Evolving to 3min  (Only for Chaotic or Evolving, Incompatible with Quick)": "将混乱和进化的触发时间减少到 3 分钟（仅适用于混乱或进化，与缓慢不兼容）",
+        "Tamperproof": "防篡改",
+        "Activate custom behavior when tampering with the item (Need to be used with Electrifying / Self-Tightening / Subduing, Incompatible with hand item)": "篡改物品时激活自定义行为（需与电击/自收紧/制服配合使用，与手持物品不兼容）",
+        "Electrifying": "电击",
+        "Electrifying the player when tampering with the item (Need to be used with Tamperproof)": "篡改物品时对玩家进行电击（需与防篡改配合使用）",
+        "Self-Tightening": "自收紧",
+        "Tighten the item when tampering with the item (Need to be used with Tamperproof)": "篡改物品时收紧物品（需与防篡改配合使用）",
+        "Subduing": "制服",
+        "Subdue the player with a sedating spray when tampering with the item (Need to be used with Tamperproof)": "篡改物品时用镇静喷雾制服玩家（需与防篡改配合使用）",
+        "Cursed": "诅咒",
+        "Curse the item (Need a selected curse in the dropdown below)": "诅咒物品（需在下方下拉框中选择一个诅咒）",
+        "Selection for the curse to apply": "选择要施加的诅咒",
+        "Enchant the item with magic, allowing player to use LSCG Magic. (Need hand item)": "为物品附魔，允许玩家使用 LSCG 魔法。（需要手持物品）",
+        "Net Gun": "网枪",
+        "Add a Shoot Netgun ability to the item (Need Medical Injector or Rainbow Wand or Baguette)": "为物品添加发射网枪能力（需要医疗注射器、彩虹魔杖或法棍面包）",
+        "Soulbinding": "灵魂绑定",
+        "Restraints with this will persist on the wearer's 'Astral Projection.'": "带有此属性的束缚会在佩戴者的「灵魂出窍」状态下持续存在。",
+        "Antidote": "解毒剂",
+        "Add curing effect to the item (Only for: Medical Injector, Latex Respirator, Filled Glass or Mug)": "为物品添加治疗效果（仅适用于：医疗注射器、乳胶呼吸器、装满的玻璃杯或马克杯）",
+        "Add Sedative effect to the item (Only for: Medical Injector, Latex Respirator, Filled Glass or Mug)": "为物品添加镇静剂效果（仅适用于：医疗注射器、乳胶呼吸器、装满的玻璃杯或马克杯）",
+        "Add aphrodisiac effect to the item (Only for: Medical Injector, Latex Respirator, Filled Glass or Mug)": "为物品添加春药效果（仅适用于：医疗注射器、乳胶呼吸器、装满的玻璃杯或马克杯）",
+        "Add mind control effect to the item (Only for: Medical Injector, Latex Respirator, Filled Glass or Mug)": "为物品添加精神控制效果（仅适用于：医疗注射器、乳胶呼吸器、装满的玻璃杯或马克杯）",
+        "First worn shock device": "第一个穿戴的电击装置",
+
+        /* ===== 远程状态消息 ===== */
+        "You do not have access to %OPP_POSSESSIVE% mind...": "你无权访问 %OPP_POSSESSIVE% 的意识...",
+        "%OPP_NAME% has too much willpower to let you in...": "%OPP_NAME% 的意志力太强，你无法进入...",
+        "%OPP_NAME% seems suggestable, but not to you...": "%OPP_NAME% 看起来可被暗示，但对你不生效...",
+        "%OPP_NAME% is resisting any hypnotic suggestions...": "%OPP_NAME% 正在抵抗任何催眠暗示...",
+        "%OPP_NAME% does not allow remote configuration.": "%OPP_NAME% 不允许远程配置。",
+        "You do not have permission to configure %OPP_POSSESSIVE% speech.": "你没有权限配置 %OPP_POSSESSIVE% 的言语设置。",
+        "%OPP_NAME% didn't respond. %OPP_PRONOUN% may not allow access right now.": "%OPP_NAME% 没有回应。%OPP_PRONOUN% 现在可能不允许访问。",
+        "You do not have access to %OPP_POSSESSIVE% collar...": "你无权访问 %OPP_POSSESSIVE% 的项圈……",
+
+        /* ===== 扩展 Extensions ===== */
+        "No installed extension has settings here.": "没有已安装的扩展在此提供设置。",
+        "Each extension adds its own settings here.": "每个扩展都会在此处添加自己的设置。",
+        "'s settings couldn't be loaded. See the browser console for details.": "的设置无法加载。详情请参阅浏览器控制台。",
+
+        /* ===== 魔法编辑器 缺失部分 ===== */
+        "Page ": "第 ",
+        "/": " / ",
+        " page": " 页",
+        "Locks them out of their own Magic™ settings. Only possible if they allow it.": "禁止其修改自己的魔法™ 设置，仅在对方允许时可用。",
+
+        /* ===== Host / DOM 操作提示 ===== */
+        "Drag the character, or use the arrow keys (shift for bigger steps).": "拖动角色，或使用方向键（按 Shift 可增大步幅）。",
+        "Drag the character left or right, or use the arrow keys (shift for bigger steps). A layer's angle adds to All Layers.": "左右拖动角色，或使用方向键（按 Shift 可增大步幅）。单个图层的角度会叠加到「所有图层」上。",
+        "Drag the character: sideways for width, up and down for height, or both together while holding Shift (right or up for bigger). Arrow keys work too: shift for bigger steps, Alt to change both. A layer's scale multiplies All Layers.": "拖动角色：左右拖调整宽度，上下拖调整高度，按住 Shift 同时拖（向右或向上可放大）。方向键同样可用：Shift 加大步幅，Alt 同时调整两者。单个图层的缩放会乘到「所有图层」上。",
+        "X": "X 轴",
+        "Y": "Y 轴",
+
+        "No instructions yet": "尚未添加指令",
+        "Speaker only": "仅说话者",
+        "Subject will always target the speaker": "目标始终为说话者",
+        "Subject will always target themselves": "目标始终为自己",
+        "Potion": "药剂",
+        "1 to 8 letters, A to Z": "1 到 8 个字母，A 到 Z",
+        "Up to 140 characters": "最多 140 个字符",
+        "4 digits": "4 位数字",
+        "Keys (member numbers, comma separated)": "密钥（成员编号，用逗号分隔）",
+        "Locks the user out of these settings.": "将用户锁定在这些设置之外。",
+
+        /* ===== 0.9.6 内置魔法效果：名称 ===== */
+        "Hypnotizing": "催眠",
+        "Slumbering": "沉睡",
+        "Arousing": "兴奋",
+        "Blinding": "致盲",
+        "Deafening": "失聪",
+        "Gagged": "口塞",
+        "Petrifying": "石化",
+        "Enlarging": "放大",
+        "Bless": "增益",
+        "Bane": "减益",
+        "Pairing": "配对",
+        "Siphoning": "转移快感",
+        "Outfit": "套装",
+        "Polymorph": "变形",
+        "Dispel": "驱散",
+        "X-Ray Vision": "X 光透视",
+        "Magic Barrier": "魔法屏障",
+        "Disarming": "缴械",
+        "Denying": "禁止高潮",
+        "Forced Orgasm": "强制高潮",
+        "Astral Projection": "灵魂出窍",
+        "Tightening": "收紧",
+        "Loosening": "放松",
+
+        /* ===== 0.9.6 内置魔法效果：说明 ===== */
+        "Hypnotizes the target.": "催眠目标。",
+        "Induces a deep slumber in the target.": "使目标陷入深度睡眠。",
+        "Arouses the target.": "使目标兴奋。",
+        "Prevents the target from seeing.": "使目标无法视物。",
+        "Prevents the target from hearing.": "使目标无法听见声音。",
+        "Gags the target.": "使目标被堵住嘴巴。",
+        "Petrifies the target.": "使目标身体僵硬。",
+        "Enlarges the target to twice their size.": "将目标放大至两倍大小。",
+        "Applies a +5 buff to all the target's skills for 15 minutes": "使目标所有技能获得 +5 增益，持续 15 分钟。",
+        "Applies a -5 debuff to all the target's skills for 15 minutes": "使目标所有技能获得 -5 减益，持续 15 分钟。",
+        "Pair two targets, such that when one feels arousal the other also does.": "连接两个目标，使其中一人的兴奋也传递给另一人。",
+        "Redirect all of the target's orgasmic pleasure to another.": "将目标的所有高潮快感转移给另一人。",
+        "Magically change the target's clothing and equipment.": "用魔法改变目标的服装和装备。",
+        "Polymorph the target's body and/or cosplay items": "改变目标的身体和／或 Cosplay 物品。",
+        "Dispels any existing effects on the target (including anything drug induced).": "驱散目标身上现有的所有效果（包括药物造成的效果）。",
+        "Grants the target X-Ray vision": "赋予目标 X 光视觉。",
+        "Create a magic barrier that protect and reflect incoming spell": "创造能够防护并反弹来袭法术的魔法屏障。",
+        "Disarm the target": "解除目标的手持物品。",
+        "Denies the target any orgasms.": "禁止目标达到高潮。",
+        "Forced an orgasm upon the target.": "强制目标达到高潮。",
+        "Project the target's soul into the Astral Plane": "将目标的灵魂投射到星界。",
+        "Tightens every unlocked restraint on the target.": "收紧目标身上所有未锁定的束缚。",
+        "Loosens every unlocked restraint on the target.": "放松目标身上所有未锁定的束缚。",
+
+        /* ===== 本次发现的漏翻 ===== */
+        // "Lead-lines all your clothing.": "为你的所有衣物加上引导线。",
+        // "Lead-lines all their clothing.": "为他们的所有衣物加上引导线。",
+        "You never resist spells from these members.": "你永远不会抵抗这些成员施放的法术。",
+        "They never resist spells from these members.": "他们永远不会抵抗这些成员施放的法术。",
+        "Who can splatter you": "谁可以对你施加飞溅效果",
+        "Appearance": "外观",
+        "Groups of words or phrases to listen for, such as release phrases or banned words. Pick a group under Reactions ('Says: …') to decide what happens when one is spoken. Comma separated; quote phrases that contain commas. Matches whole words, ignoring case.": "要监听的单词或短语组，例如解除短语或禁用词。可在“反应”中选择组（“说出：……”）决定说出后发生什么。用逗号分隔；包含逗号的短语请加引号。匹配完整单词，不区分大小写。",
+        "Groups of words or phrases to listen for, such as release phrases or banned words. Pick a group under Reactions ('Says: …') to decide what happens when one is spoken. Comma separated; quote phrases that contain commas. Matches whole words, ignoring case. Phrases set by someone else through remote access are hidden from you.": "要监听的单词或短语组，例如解除短语或禁用词。在「反应规则」下选择一个组（「说：……」）来决定说出其中内容时发生什么。使用逗号分隔；包含逗号的短语请加引号。匹配完整单词，不区分大小写。通过远程访问由其他人设置的短语对你隐藏。",
+        /* ===== 0.9.8 新增：魔法分类与新增内置效果 ===== */
+        "Mind": "心智",
+        "Senses": "感知",
+        "Form": "形态",
+        "Binding": "束缚",
+        "Desire": "欲望",
+        "Harm": "伤害",
+        "Fortune": "运势",
+        "Warding": "防护",
+        "Effects on the target's will and thoughts.": "关于目标意志与思维的效果。",
+        "Effects on what the target can see, hear and perceive.": "关于目标视觉、听觉和感知的效果。",
+        "Effects on the target's body, size and clothing.": "关于目标身体、体型和衣物的效果。",
+        "Effects that restrain, gag or hold the target.": "束缚、口塞或控制目标的效果。",
+        "Effects on the target's arousal and release.": "关于目标兴奋度和释放的效果。",
+        "Effects that hurt the target.": "伤害目标的效果。",
+        "Effects that help or hinder the target's skills.": "增强或削弱目标技能的效果。",
+        "Effects that protect, or take other magic away.": "保护目标或移除其他魔法的效果。",
+        "Damaging": "伤害",
+        "Damages the target with a chosen damage type and an optional dice roll.": "使用选定的伤害类型和可选的骰子检定对目标造成伤害。",
+        "Dissolving Clothes": "溶解衣物",
+        "Dissolves the target's clothing, underwear or both.": "溶解目标的衣物、内衣或两者。",
+        "Web": "蛛网",
+        "Binds the target in sticky webs.": "用黏稠的蛛网束缚目标。",
+        "Slime": "黏液",
+        "Coats the target in hardening slime.": "用会凝固的黏液覆盖目标。",
+        "Conjured Ropes": "召唤绳索",
+        "Ties the target with conjured rope.": "用召唤出的绳索捆绑目标。",
+        "Commanding": "命令",
+        "Compels the target to kneel, follow, stay, strip or cum.": "强迫目标跪下、跟随、停留、脱衣或射精。",
+        "Grasping": "抓取",
+        "Seizes the target's neck, arms, legs, ass or breasts with spectral hands.": "用幽灵之手抓住目标的脖子、手臂、腿部、臀部或乳房。",
+        "Remove Curse": "移除诅咒",
+        "Lifts one magical effect from the target: the one the caster picks, or one at random.": "从目标身上移除一个魔法效果：由施法者选择，或随机选择。",
+
+        /* ===== 0.9.8 新增：魔法效果编辑器 ===== */
+        "Damage type": "伤害类型",
+        "What kind of damage the spell does.": "法术造成的伤害类型。",
+        "Half damage": "伤害减半",
+        "No damage": "无伤害",
+        "On a successful save": "成功豁免时",
+        "The target rolls to save, even if they never resist other spells.": "目标仍需进行豁免检定，即使他们从不抵抗其他法术。",
+        "Damage roll": "伤害骰",
+        "e.g. 2d6 + 2": "例如 2d6 + 2",
+        "Dissolves": "溶解",
+        "Clothing and underwear": "衣物和内衣",
+        "Which layers the spell takes off. Cosplay, the body and restraints are never touched.": "法术会脱去哪些层。不会影响 Cosplay、身体或束缚物。",
+        "Fewest pieces": "最少件数",
+        "Each casting puts on at least this many pieces.": "每次施法至少穿上这么多件物品。",
+        "Most pieces": "最多件数",
+        "...and at most this many, rolled each casting.": "每次施法随机穿上不超过此数量的物品。",
+        "Crafted item": "制作物品",
+        "Use one of your own crafted items instead of the plain one.": "使用你自己制作的物品代替普通物品。",
+        "— the plain item —": "— 普通物品 —",
+        "Command": "指令",
+        "The word commanded. Also the fallback when the caster isn't asked, or a voice cast names none.": "要执行的指令词。当未询问施法者或语音施法未指定时也会作为默认值。",
+        "Ask the caster": "询问施法者",
+        "The caster picks from the choices below, or names one after the target in a voice cast.": "施法者从下方选项中选择，或在语音施法中于目标后指定一个选项。",
+        "Kneel": "跪下",
+        "Stay": "停留",
+        "Cum": "射精",
+        "Neck": "脖子",
+        "Arms": "手臂",
+        "Legs": "腿部",
+        "Ass": "臀部",
+        "Breasts": "乳房",
+        "Effect to lift": "要移除的效果",
+        "- Random -": "— 随机 —",
+        "Search spells…": "搜索法术…",
+        "No effects": "无效果",
+        "Needs a second target.": "需要第二个目标。",
+        "← Back": "← 返回",
+        "— none, or typed below —": "— 无，或在下方输入 —",
+        "Effect 6": "效果6",
+        "Effect 7": "效果7",
+        "Effect 8": "效果8",
+
+        /* ===== 0.9.8 新增：远程催眠设置 ===== */
+        "Override trigger words": "覆盖触发词",
+        "Override awaken words": "覆盖唤醒词",
+        "Override allowed member IDs": "覆盖允许的成员 ID",
+        "Access & suggestions": "访问与暗示",
+        "If checked, the user will be allowed to remove installed suggestions.": "勾选后，用户将可以移除已植入的暗示。",
+        "If checked, locks the user out of their own hypnosis settings.": "勾选后，将锁定用户对自己催眠设置的访问。",
+
+        /* ===== 0.9.8 新增：言语分析与调优 ===== */
+        "Negative self-talk and positive affirmations, including comparisons with others and how you respond to what others say about you.": "负面的自我评价和正面肯定，包括与他人比较，以及你如何回应他人对你的评价。",
+        "Swearing, including disguised spellings like f*ck or sh1t.": "脏话，包括 f*ck 或 sh1t 之类的变体拼写。",
+        "Speaking above a set reading grade level.": "使用高于指定阅读年级水平的表达。",
+        "Your own groups of words and phrases, such as release phrases or banned words.": "你自己的词语和短语组，例如解除短语或禁用词。",
+        "Your recent lines (in memory only, cleared on reload). Click one to try it.": "你最近说过的话（仅保存在内存中，重载后清除）。点击一条来试试。",
+        "Lines you speak while speech analysis is on show up here until you reload.": "启用语音分析期间你说过的话会显示在这里，直到重新加载。",
+        "Type a line, or pick one of your recent lines.": "输入一条语句，或从最近语句中选择。",
+        "Too short to assess (under 5 words)": "太短，无法评估（少于 5 个单词）",
+        "Reset everything…": "全部重置……",
+        "+ Add group": "+ 添加组",
+        "Denied": "拒绝高潮",
+        "Horny": "兴奋",
+        "Blind": "失明",
+        "Deaf": "失聪",
+        "Frozen": "冻结",
+        "Asleep": "睡眠中",
+        "Redressed": "恢复服装",
+        "Loading speech settings…": "正在加载言语设置…",
+        "No one else in the room can be paired.": "房间内没有其他可配对的人。",
+        "Configure…": "配置…",
+
+        /* ===== 0.9.8 新增：服装收藏与穿戴界面 ===== */
+        "Storage:": "存储：",
+        "Take off first": "先脱下",
+        "Storage: ": "存储：",
+        "BC Server": "BC 服务器",
+        "Local Storage": "本地存储",
+        "Change Storage Location": "更改存储位置",
+        "New Outfit": "新建套装",
+        "Edit Outfit": "编辑服装",
+        "Crafted": "制作物品",
+        "Inherited Outfits:": "继承服装：",
+        "Wear outfit": "穿戴服装",
+        "Parse ✅": "解析 ✅",
+
+        /* ===== 0.9.8 新增：其他界面文字 ===== */
+        "Done": "完成",
+        "- Andrew co.® makes no guarantees as to the behavior of the wearer -": "- Andrew 公司®不对佩戴者的行为做任何保证 -",
+        "Cursed items": "诅咒物品",
+        "Trigger phrase required.": "需要触发短语。",
+
+        /* ===== 0.9.8 新增：补充 UI 文案 ===== */
+        "Comma separated list of member IDs. If empty will use standard Item Permissions.": "成员ID列表，逗号分隔。留空则使用标准物品权限。",
+        "A choke, if the target allows hand chokes.": "扼喉效果，前提是目标允许徒手扼喉。",
+        "Squeezes now and then, raising arousal a little.": "偶尔进行挤压，使兴奋度略微提升。",
+        "Pins the arms.": "固定住手臂。",
+        "Holds the legs still.": "固定住腿部。",
+        "A suggested instruction.": "一条建议指令。",
+        "— none —": "— 无 —",
+        "Glow": "发光",
+        "Float": "漂浮",
+        "Control Collar": "控制项圈",
+        "Map Enhancements": "地图增强",
+        "Splatters": "飞溅效果",
+        "States": "状态",
+
+        /* ===== LSCG 0.9.14 新增与补充 UI 翻译 ===== */
+        "Nothing to show.": "暂无可显示的内容。",
+        "Delete rule": "删除规则",
+        "+ Add rule": "+ 添加规则",
+        "Search": "搜索",
+        "Search…": "搜索……",
+        "Remote Access": "远程访问",
+        "Allowed member ids": "允许的成员 ID",
+        "Who can access": "谁可以访问",
+        "Use global defaults": "使用全局默认设置",
+        "Take who can access and the allowed member ids from General > Remote Access. Turn it off to set them for this section alone. The trance rules below are always this section's own.": "从「通用 > 远程访问」读取访问权限级别和允许的成员 ID。关闭后可单独设置本分区的权限。下方的催眠状态规则始终由本分区独立控制。",
+        "Same levels as BC's interaction permission, plus friends. Your owner always has access.": "权限级别与 BC 的互动权限相同，另加好友级别。你的主人始终可以访问。",
+        "These members get in whatever the level says (the trance rules still apply).": "这些成员无论当前权限级别如何都可以访问（仍受催眠状态规则限制）。",
+        "Remote access only works while you are hypnotized (your owner can always get in).": "只有在你被催眠时才能远程访问（你的主人始终可以访问）。",
+        "Only whoever hypnotized you gets remote access (your owner can always get in).": "只有催眠你的人可以远程访问（你的主人始终可以访问）。",
+        "Defaults for every section": "所有分区的默认设置",
+        "Hypnosis, collar, magic and speech analysis can use these instead of their own settings (each has a \"Use global defaults\" checkbox). Whether a section allows remote access at all, and whether it can be locked, stay set on the section.": "催眠、项圈、魔法和言语分析可以使用这些全局设置，而不是各自的设置（每个分区都有「使用全局默认设置」复选框）。某个分区是否允许远程访问、是否允许被锁定，仍由该分区自身决定。",
+        "Enable net gun": "启用网枪",
+        "Lets you shoot nets from a crafted net gun (a medical injector, rainbow wand or baguette with \"net gun\" in its name or description).": "允许你使用制作的网枪发射网（名称或描述中包含“net gun”的医疗注射器、彩虹魔杖或法棍面包均可作为网枪）。",
+        "Who can copy my outfit": "谁可以复制我的服装",
+        "Who may copy your outfit with /lscg get-outfit-code. They also need permission to use items on you.": "谁可以通过 /lscg get-outfit-code 复制你的服装。他们还必须拥有对你使用物品的权限。",
+        "Nobody": "任何人都不行",
+        "Open LSCG Wiki on GitHub.": "在 GitHub 上打开 LSCG 维基。",
+        "Dominants": "支配者",
+        "Everyone, no exceptions": "所有人（无例外）",
+        "Everyone, except blacklist": "所有人（黑名单除外）",
+        "Friends, whitelist, lovers and owner": "好友、白名单、恋人和主人",
+        "Owner, lovers, whitelist and dominants": "主人、恋人、白名单和支配者",
+        "wearer's global default": "佩戴者的全局默认设置",
+        "Friend": "好友",
+        "Lover": "恋人",
+        "Allowed": "允许",
+        "Phrase": "短语",
+        "Suggestion": "暗示",
+        "Enables breathplay. Turning it off goes back to the introduction.": "启用呼吸控制。关闭后将返回介绍页面。",
+        "Comma separated list of member IDs exclusively allowed to use your triggers and suggestions. If empty will use standard Item Permissions. Remote access to these settings has its own tab.": "仅允许这些成员 ID 使用你的触发词和暗示，多个 ID 用逗号分隔。留空则使用标准物品权限。此设置的远程访问选项位于单独的标签页中。",
+        "Enable Enhanced Drinks and Injectors.": "启用强化饮品和注射器。",
+        "Phrases you set are hidden from the wearer. You only see phrases you set yourself, unless you are their owner or lover.": "你设置的短语会对佩戴者隐藏。除非你是对方的主人或恋人，否则只能看到自己设置的短语。",
+        "Phrases set by someone else through remote access are hidden from you.": "其他人通过远程访问设置的短语会对你隐藏。",
+        "Tightens over time": "逐渐收紧",
+        "The hand squeezes harder every minute until the target passes out, then takes hold again once they recover.": "这只手每分钟都会收得更紧，直到目标昏厥；目标恢复后，它会再次抓住目标。",
+        "Any effect, picked by the caster or at random, or only this one.": "移除任意效果（由施法者选择或随机选取），也可以只移除此效果。",
+        "- Any effect -": "— 任意效果 —",
+        "Lifts": "移除",
+        "Alphabetical": "按字母顺序",
+        "By type": "按类型",
+        "Sort effects": "效果排序",
+        "By type boxes effects into groups, like the effect picker (mind, senses, binding... then extensions), alphabetical within each. Alphabetical is one list, with extension effects last.": "按类型会将效果分组，类似效果选择器（心智、感知、束缚……然后是扩展效果），并在每组内按字母排序。按字母顺序则显示为单一列表，扩展效果排在最后。",
+        "Prevents you from casting this effect. Only someone with remote access can change this.": "阻止你施放此效果。只有拥有远程访问权限的人才能更改此设置。",
+        "Prevent them from casting this effect": "阻止他们施放此效果",
+        "Forbidden": "禁止施放",
+        "Blocked effects never apply to you; \"Allow self\" still lets your own spells apply them. Locked effects fizzle on their step when you cast a spell, and only someone with remote access can lock them.": "被阻止的效果永远不会作用于你；「允许自身」仍可让你自己的法术施加这些效果。施法时，已锁定的效果会在执行到该步骤时失效；只有拥有远程访问权限的人才能锁定效果。",
+        "Blocked effects never apply to them; \"Allow self\" still lets their own spells apply them. Locked effects fizzle on their step when they cast a spell, and only someone with remote access can lock them.": "被阻止的效果永远不会作用于他们；「允许自身」仍可让他们自己的法术施加这些效果。施法时，已锁定的效果会在执行到该步骤时失效；只有拥有远程访问权限的人才能锁定效果。",
+        "This effect comes from an extension that isn't installed.": "此效果来自一个尚未安装的扩展。",
+        "Not installed": "未安装",
+        "Select a spell to teach…": "选择要教授的法术…",
+        "Select a paired target…": "选择配对目标…",
+        "Select a spell to cast…": "选择要施放的法术…",
+        "Choose how to cast…": "选择施法方式…",
+        "No spells known…": "尚未掌握法术…",
+        "No spells match.": "没有匹配的法术。",
+        "You can't cast this effect; it has been locked.": "此效果已被锁定，你无法施放。",
+        "You have blocked this effect.": "你已阻止此效果。",
+        "Your client doesn't have this effect.": "你的客户端没有此效果。",
+        "paired": "配对",
+        "Custom delay": "自定义延迟",
+        "Wait (seconds)": "等待时间（秒）",
+        "Body and Cosplay": "身体与 Cosplay",
+        "Whole Body Only": "仅全身",
+        "Cosplay Only": "仅 Cosplay",
+        "Acid": "酸蚀",
+        "Bludgeoning": "钝击",
+        "Cold": "寒冷",
+        "Fire": "火焰",
+        "Force": "力场",
+        "Lightning": "闪电",
+        "Necrotic": "黯蚀",
+        "Piercing": "穿刺",
+        "Poison": "毒素",
+        "Psychic": "心灵",
+        "Radiant": "光耀",
+        "Slashing": "斩击",
+        "Thunder": "雷鸣",
+        "Release phrases": "释放短语",
+        "Banned words": "禁用词",
+        "Parse outfit code": "解析服装代码",
+        "All Body Items": "所有身体物品",
+        "Cosplay Items": "Cosplay 物品",
+        "Save item set": "保存物品套装",
+        "Restraints/Items": "束缚/物品",
+        "Hair/Eyebrows": "头发/眉毛",
+        "Skin/Body": "皮肤/身体",
+        "Genitals/Pronouns": "生殖器/代词",
+        "None of your crafted items fit this group": "没有适用于此分组的已制作物品",
+        "Outfit preview": "服装预览",
+        "Save item set:\nMissing outfit or combination": "保存物品套装：\n缺少服装或组合",
+        "Save item set:\nMissing key": "保存物品套装：\n缺少键值",
+        "Save item set:\nDuplicate name": "保存物品套装：\n名称重复",
+        "Parse outfit code:\nMissing code": "解析服装代码：\n缺少代码",
+        "no scored words": "没有可评分的单词",
+        "not about you": "与你无关",
+        "✓ clean": "✓ 未检测到脏话",
+
+        /* ===== 手动补充 ===== */
+        "Trance": "催眠状态",
+        "Spiral overlay": "螺旋叠加效果",
+        "Draws a slowly turning purple spiral over the screen while you are hypnotized.": "在你处于催眠状态时，在屏幕上绘制一个缓慢旋转的紫色螺旋。",
+        "Spiral turn time (sec.)": "螺旋旋转周期（秒）",
+        "Seconds for the spiral overlay to make one full turn. Lower is faster.": "螺旋叠加图案完成一整圈旋转所需的时间（秒）。数值越小，旋转越快。",
+        "Let other players change your hypnosis settings through LSCG's remote settings.": "允许其他玩家通过 LSCG 的远程设置功能更改您的催眠设置。",
+        "Let other players change your collar settings through LSCG's remote settings.": "允许其他玩家通过 LSCG 的远程设置功能更改您的项圈设置。",
+        "Drug visuals": "药物视觉效果",
+        "Master switch for the drugs' visual effects: the suggestible's sway, tint and blur, and the hypno spiral. (The spiral also has its own switch in Hypnosis settings.)": "药物视觉效果的总开关：涵盖“易受暗示者的摇摆感”、“色调与模糊效果”以及“催眠螺旋”。（催眠螺旋在“催眠”设置中也有其独立的开关。）",
+        "Swaying screen": "摇晃的画面",
+        "The warped, swaying screen while suggestible. Turn it off to keep just the green tint and blur. (Needs Drug visuals.)": "在易受暗示状态下，画面会发生扭曲与摇晃。将其关闭，则仅保留绿色色调与模糊效果。（需开启“药物视觉效果”。）",
+        "Suggestible": "易受暗示剂",
+        "Activates for \"suggestible\", \"intoxicating\" or \"compliance\". The higher it is, the more agreeable you become.": "对名称/描述含「suggestible」、「intoxicating」或「compliance」的物品激活。该数值越高，你就越容易顺从他人。",
+        "Activates for \\\"suggestible\\\", \\\"intoxicating\\\" or \\\"compliance\\\". The higher it is, the more agreeable you become.": "对名称/描述含「suggestible」、「intoxicating」或「compliance」的物品激活。该数值越高，你就越容易顺从他人。",
+        "Default: 3 minutes per dose.": "默认值：每剂 3 分钟。",
+        "Default: 4 minutes per dose.": "默认值：每剂 4 分钟。",
+        "Default: 5 minutes per dose.": "默认值：每剂 5 分钟。",
+        "Soaked items": "浸药物品",
+        "Crafted gags and masks with a drug word followed by \"-soaked\" or \"-laced\" (e.g. \"aphrodisiac-soaked\", \"intoxicant-laced\") dose you gradually while worn.": "带有药物名称后缀「-soaked」或「-laced」命名的自制口塞和面具（例如「aphrodisiac-soaked」，「intoxicant-laced」），在佩戴期间会逐渐向你释放药物。",
+        "Crafted gags and masks with a drug word followed by \\\"-soaked\\\" or \\\"-laced\\\" (e.g. \\\"aphrodisiac-soaked\\\", \\\"intoxicant-laced\\\") dose you gradually while worn.": "带有药物名称后缀「-soaked」或「-laced」命名的自制口塞和面具（例如「aphrodisiac-soaked」，「intoxicant-laced」），在佩戴期间会逐渐向你释放药物。",
+        "Allow soaked items": "允许使用浸药物品",
+        "Allows crafted mouth, nose and face items soaked in a drug to dose you gradually.": "允许自制的口部、鼻部及面部装备浸药，并在佩戴时持续缓慢释放药物。",
+        "Soaks never dry": "浸泡效果永不干涸",
+        "Soaked items on you stay potent for as long as they are worn; otherwise they dry out after an hour.": "只要穿戴浸药物品，其药效就会持续保持；未穿戴的物品则会在一小时后干涸。",
+        "Lifts one magical effect from the target: the one the caster picks, or one at random. Can be set to lift only one particular effect.": "移除目标身上的一个魔法效果：可由施法者指定要移除的效果，也可随机移除一个。还可设定为仅移除某一种特定效果。",
+        "Optional dice, such as 2d6 + 2, totalling at most 256. Leave empty for damage with no number.": "可选的骰子表达式，例如 2d6 + 2，总点数最多为 256。留空则表示造成不指定数值的伤害。",
+        "Owner, lovers and whitelist": "主人、恋人和白名单",
+
+        /* ===== 0.9.18更新 ===== */
+        "Binaural beats": "双耳节拍",
+        "Plays a soft binaural beat while you are hypnotized, fading in as the trance starts and fading out when you wake. Needs headphones. The evidence that beats affect the brain is mixed, so treat them as atmosphere. Not recommended if you have a history of seizures.": "当你处于催眠状态时播放柔和的双耳节拍；催眠开始时逐渐淡入，醒来时逐渐淡出。需要佩戴耳机。关于双耳节拍是否会影响大脑，目前的研究证据尚不一致，因此请将其视为一种氛围效果。有癫痫发作史者不建议使用。",
+        "Beat pattern": "节拍模式",
+        "Alpha (about 10 Hz) is relaxed focus and theta (4 to 7 Hz) the deeper end. The glide starts in alpha and settles into theta.": "阿尔法波（约 10 Hz）代表放松而专注的状态，西塔波（4 至 7 Hz）则代表更深层的状态。渐变过程从阿尔法波开始，逐渐过渡到西塔波。",
+        "Alpha to theta glide (10 to 5 Hz over 3 minutes)": "阿尔法波到西塔波渐变（3 分钟内从 10 Hz 降至 5 Hz）",
+        "Alpha (10 Hz)": "阿尔法波（10 Hz）",
+        "Theta (6 Hz)": "西塔波（6 Hz）",
+        "Deep theta (4.5 Hz)": "深度西塔波（4.5 Hz）",
+        "Beat volume (%)": "节拍音量（%）",
+        "How loud the beats get. Extensions can only play them at or below this.": "设置节拍的播放音量。扩展只能以此音量或更低的音量播放节拍。",
+        "Gas and soak emotes": "气体与浸药物品吸入动作",
+        "Occasional emotes as you breathe in a drug from a gas or a soaked item (rate-limited below). The doses still land without them.": "当你从气体或浸药物品中吸入药物时，偶尔播放相应的动作表情（触发频率受下方设置限制）。即使不播放这些动作，药物剂量仍会正常生效。",
+        "Emotes only to me": "动作表情仅对我可见",
+        "Show those emotes only to you instead of saying them to the room.": "这些动作表情只对你显示，不会向整个房间公开发送。",
+        "Minutes between emotes": "动作表情间隔（分钟）",
+        "The least time between those emotes. 0 for no limit.": "两次动作表情之间的最短间隔时间。设为 0 表示不限制。",
+        "Gas strength (%)": "气体强度（%）",
+        "How strong each breath from a gas is. 100 is standard.": "每次从气体中吸入的剂量强度。100% 为标准强度。",
+        "Soak strength (%)": "浸药物品强度（%）",
+        "How strong each breath from a soaked item is, as a percent of a standard gas. Default 30.": "每次从浸药物品中吸入的剂量强度，以标准气体强度的百分比表示。默认值为 30%。",
+        "Faster map drawing [EXPERIMENTAL]": "地图加速绘制【实验性】",
+        "If checked, the map's images are drawn through a shortcut that skips some of the game's per-image work. Helps most when zoomed out. Turn off if the map looks wrong.": "勾选后，地图图像将通过一种快捷方式绘制，从而跳过游戏对每张图像执行的部分处理。缩小地图时效果最明显。如果地图显示异常，请关闭此选项。",
+        "Light quality": "光照质量",
+        "Half draws the lighting at half resolution, which is quicker on slow devices and makes shadow edges a little softer.": "半分辨率模式会以一半的分辨率渲染光照，在性能较弱的设备上运行更快，并使阴影边缘稍微柔和一些。",
+        "Full": "完整",
+        "Half (faster)": "半分辨率（更快）"
+    };
+
+    // ============================================================
+    // 翻译函数
+    // ============================================================
+    const PREFIX_T = [
+        ["Remote access: wearer's global default", "远程访问：佩戴者的全局默认设置"],
+        ["Remote access: Everyone, no exceptions", "远程访问：所有人（无例外）"],
+        ["Remote access: Everyone, except blacklist", "远程访问：所有人（黑名单除外）"],
+        ["Remote access: Friends, whitelist, lovers and owner", "远程访问：好友、白名单、恋人和主人"],
+        ["Remote access: Owner, lovers, whitelist and dominants", "远程访问：主人、恋人、白名单和支配者"],
+        ["Remote access: Owner, lovers and whitelist", "远程访问：主人、恋人和白名单"],
+        ["Remote access: Owner and lovers", "远程访问：主人与恋人"],
+        ["Remote access: Owner only", "远程访问：仅限主人"],
+        ["Save item set:\nMax allowed Outfit storage size exceeded (", "保存物品套装：\n超出允许的服装存储上限（"],
+        ["Save item set:\n", "保存物品套装：\n"],
+        ["Parse outfit code:\n", "解析服装代码：\n"],
+        ["↳ wait ", "↳ 等待 "],
+        ["Default: wait ", "默认：等待 "],
+        ["None of this spell's effects would affect ", "此法术的任何效果都无法影响 "],
+        ["Cast ", "施放 "],
+        ["hidden — set by ", "已隐藏 — 设置者："],
+        ["This spell has more than your limit of ", "此法术的效果数量超过了你的限制"],
+        ["What the spell does to its target, one after another in this order. Up to ", "法术对目标依次施加效果，按此顺序执行。最多 "],
+        ["Says: ", "说："],
+        ["Outfit settings: ", "服装设置："],
+        ["Polymorph settings: ", "变形设置："],
+        ["Added by extension: ", "由扩展程序添加："],
+        ["Remote access: ", "远程访问："],
+        ["Instruction #", "指令 #"],
+        ["Suggestion No. ", "暗示第 "],
+        ["Installed by: ", "植入者："],
+        ["Damage settings: ", "伤害设置："],
+        ["Dissolves: ", "溶解："],
+        ["Web settings: ", "蛛网设置："],
+        ["Slime settings: ", "黏液设置："],
+        ["Conjured Ropes settings: ", "召唤绳索设置："],
+        ["Command settings: ", "命令设置："],
+        ["Grasps: ", "抓取："],
+        ["Wearing outfit: ", "正在穿戴服装："],
+    ];
+
+    const SUFFIX_T = [
+        [" (blocked)", "（已屏蔽）"],
+        [" (unsupported)", "（客户端不支持）"],
+        [" (locked)", "（已锁定）"],
+        [" (custom)", "（自定义）"],
+        [" · from how you answered", " · 根据你的回答"],
+        [" has blocked this effect.", " 已阻止此效果。"],
+        ["'s client doesn't have this effect.", "的客户端没有此效果。"],
+        [", while hypnotized, hypnotizer only", "，处于催眠状态时，仅限催眠者"],
+        [", hypnotizer only", "，仅限催眠者"],
+        [" KB)", " KB）"],
+        [" effects. Remove some before adding others.", " 个效果。请先删除一些，再添加其他效果。"],
+        [" — details", " — 详细信息"],
+        [", while hypnotized", "，处于催眠状态时"],
+        [" (not a valid roll, so no number is rolled)", "（不是有效的骰子检定，因此不会掷出数字）"],
+        ["; no number is rolled)", "；不会掷出数字）"],
+    ];
+
+    function translateDynamic(src) {
+        if (typeof src !== "string" || !src) return src;
+
+        let result = src;
+        for (const [from, to] of PREFIX_T) {
+            if (result.startsWith(from)) {
+                result = to + result.slice(from.length);
+                break;
+            }
+        }
+        for (const [from, to] of SUFFIX_T) {
+            if (result.endsWith(from)) {
+                result = result.slice(0, -from.length) + to;
+                break;
+            }
+        }
+        return result;
+    }
+
+    function translate(src) {
+        if (typeof src !== "string" || !src) return src;
+        if (Object.prototype.hasOwnProperty.call(T, src)) return T[src];
+
+        const trimmed = src.trim();
+        if (trimmed && Object.prototype.hasOwnProperty.call(T, trimmed)) {
+            const start = src.indexOf(trimmed);
+            return src.slice(0, start) + T[trimmed] + src.slice(start + trimmed.length);
+        }
+
+        // Some newer controls combine a translated label with a dynamic status suffix.
+        for (const [from, to] of SUFFIX_T) {
+            if (!src.endsWith(from)) continue;
+            const head = src.slice(0, -from.length);
+            if (Object.prototype.hasOwnProperty.call(T, head)) return T[head] + to;
+        }
+
+        // Titles and tooltips can contain several independently rendered lines.
+        if (src.includes("\n")) {
+            const lines = src.split("\n");
+            const translated = lines.map(line => translate(line));
+            if (translated.some((line, i) => line !== lines[i])) return translated.join("\n");
+        }
+        return translateDynamic(src);
+    }
+
+    // ============================================================
+    // DOM 翻译器：只观察 LSCG 自己的界面，禁止全页面轮询
+    // ============================================================
+    const ATTRS = [
+        "title", "placeholder", "alt", "aria-label", "data-tooltip",
+        "data-label", "data-caption", "data-original-title", "label"
+    ];
+
+    const LSCG_ROOT_SELECTOR = ".lscg-screen, .lscg-apply";
+    const LSCG_ELEMENT_SELECTOR = ".lscg-screen, .lscg-apply, [class*='lscg-']";
+
+    function isElementInLscgUI(el) {
+        if (!el || el.nodeType !== 1) return false;
+        return !!el.closest(LSCG_ROOT_SELECTOR);
+    }
+
+    function translateElementOwnContent(el) {
+        if (!el || el.nodeType !== 1) return;
+
+        for (const a of ATTRS) {
+            if (!el.hasAttribute(a)) continue;
+            const v = el.getAttribute(a);
+            if (!v) continue;
+            const nv = translate(v);
+            if (nv !== v) el.setAttribute(a, nv);
+        }
+
+        if ((el.tagName === "INPUT" || el.tagName === "BUTTON") && el.type !== "password" && el.type !== "hidden") {
+            if (el.hasAttribute("value")) {
+                const v = el.getAttribute("value");
+                const nv = translate(v);
+                if (nv !== v) el.setAttribute("value", nv);
+            }
+        }
+    }
+
+    function translateTextNode(node) {
+        if (!node || node.nodeType !== 3) return;
+        const parent = node.parentElement;
+        if (!parent || !isElementInLscgUI(parent)) return;
+
+        const before = node.nodeValue;
+        const after = translate(before);
+        if (after !== before) node.nodeValue = after;
+    }
+
+    function walk(root) {
+        if (!root) return;
+
+        if (root.nodeType === 3) {
+            translateTextNode(root);
+            return;
+        }
+        if (root.nodeType !== 1) return;
+
+        // 仅处理 LSCG 根节点或已位于 LSCG 界面内部的节点。
+        if (!isElementInLscgUI(root) && !root.matches(LSCG_ROOT_SELECTOR)) return;
+
+        translateElementOwnContent(root);
+
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+        let n;
+        while ((n = walker.nextNode())) {
+            if (n.nodeType === 3) {
+                const before = n.nodeValue;
+                const after = translate(before);
+                if (after !== before) n.nodeValue = after;
+            } else if (n.nodeType === 1) {
+                translateElementOwnContent(n);
+            }
+        }
+    }
+
+    function boot() {
+        if (!document.body || !document.documentElement) return;
+
+        // 仅扫描 LSCG 自己的设置屏幕和穿戴服装弹窗，不扫描整个 Bondage Club 页面。
+        document.querySelectorAll(LSCG_ROOT_SELECTOR).forEach(walk);
+
+        let scheduled = false;
+        const pending = new Set();
+
+        function scheduleRoot(node) {
+            if (!node) return;
+            pending.add(node);
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                scheduled = false;
+                const roots = Array.from(pending);
+                pending.clear();
+
+                // 如果父级已经覆盖整个待处理节点，只保留最外层节点，避免重复 TreeWalker。
+                const outer = roots.filter(node => {
+                    if (!node || node.nodeType !== 1) return true;
+                    return !roots.some(other => other !== node && other.nodeType === 1 && other.contains(node));
+                });
+
+                for (const node of outer) {
+                    if (node.nodeType === 3) translateTextNode(node);
+                    else if (node.nodeType === 1) walk(node);
+                }
+            });
+        }
+
+        const mo = new MutationObserver(mutations => {
+            for (const m of mutations) {
+                if (m.type === "childList") {
+                    for (const added of m.addedNodes) {
+                        if (added.nodeType === 1) {
+                            const el = added;
+                            if (el.matches(LSCG_ROOT_SELECTOR) || el.closest(LSCG_ROOT_SELECTOR)) {
+                                scheduleRoot(el);
+                            } else if (el.querySelector && el.querySelector(LSCG_ROOT_SELECTOR)) {
+                                // 只在新节点自身包含 LSCG 屏幕时处理，不扫描普通页面大容器。
+                                el.querySelectorAll(LSCG_ROOT_SELECTOR).forEach(scheduleRoot);
+                            }
+                        } else if (added.nodeType === 3) {
+                            scheduleRoot(added);
+                        }
+                    }
+                } else if (m.type === "characterData") {
+                    const el = m.target && m.target.parentElement;
+                    if (el && isElementInLscgUI(el)) scheduleRoot(m.target);
+                } else if (m.type === "attributes") {
+                    if (isElementInLscgUI(m.target)) scheduleRoot(m.target);
+                }
+            }
+        });
+
+        mo.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true,
+            attributeFilter: ATTRS
+        });
+    }
+
+    // ============================================================
+    // BC Mod SDK 注册
+    // ============================================================
+
+    function registerMod() {
+        window.bcModSdk.registerMod({
+            name: 'LSCG 汉化补丁',
+            fullName: 'LSCG 汉化补丁',
+            version: '1.0.5',
+            repository: 'https://github.com/thisaueser/LSCG-Chinese-Localization-Patch'
+        });
+    }
+
+    function waitForSdk() {
+        if (!window.bcModSdk || typeof window.bcModSdk.registerMod !== 'function') {
+            setTimeout(waitForSdk, 1000);
+            return;
+        }
+
+        try {
+            registerMod();
+        } catch (e) {
+            console.warn('[LSCG 汉化补丁] SDK 注册失败:', e);
+        }
+    }
+
+    waitForSdk();
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot, { once: true });
+    } else {
+        boot();
+    }
+
+})();
